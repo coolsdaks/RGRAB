@@ -159,14 +159,21 @@ namespace RGRAB
             textUnits.Text = usageUnit.ToString("0.00");
             double maxUnit = baseUnit + 64;
 
-            if (diffUnit > 64)
+            if (diffUnit > 64 && prevUnit < maxUnit)
             {
                 addUnit = (currentUnit - maxUnit);
                 nonsubUnits.Text = addUnit.ToString("0.00");
                 nonUnit = (maxUnit - prevUnit);
                 subUnits.Text = nonUnit.ToString("0.00");
             }
-            else 
+            else if (diffUnit > 64 && prevUnit > maxUnit)
+            {
+                addUnit = (currentUnit - prevUnit);
+                nonsubUnits.Text = addUnit.ToString("0.00");
+                nonUnit = 0.0;
+                subUnits.Text = nonUnit.ToString("0.00");
+            }
+            else if (diffUnit < 64)
             {
                 addUnit = 0.0;
                 nonsubUnits.Text = Convert.ToString("0.00");
@@ -189,9 +196,22 @@ namespace RGRAB
             DateTime tempYear;
             int prevMonth = 0;
             int currMonth = 0;
+            double addUnit = 0.0;
+            double nonUnit = 0.0;
+            double calcAmount = 0.0;
+            double valueSub = 0.0;
+            double valueunSub = 0.0;
+            DateTime today = DateTime.Today;
+            string Today = today.ToString("MM/dd/yyyy"); // As String
 
+            if (valueMonth == "")
+            {
+                MessageBox.Show("Please select the month for Batch Invoicing", "Warning!",MessageBoxButtons.OK,MessageBoxIcon.Warning);
+                return;
+            }
             SQLiteConnection sqlite_conn;
             SQLiteCommand sqlite_cmd;
+            SQLiteCommand sqlite_cmd1;
             SQLiteDataReader sqlite_datareader;
 
             // create a new database connection:
@@ -202,6 +222,8 @@ namespace RGRAB
 
             // create a new SQL command:
             sqlite_cmd = sqlite_conn.CreateCommand();
+            sqlite_cmd1 = sqlite_conn.CreateCommand();
+
             try
             {
                 // First lets build a SQL-Query again:
@@ -220,6 +242,8 @@ namespace RGRAB
 
                     //calculate the previous month
                     currMonth = DateTime.Parse(valueDate).Month;
+
+                    
                     //Get previous month from the reading Month
                     if (currMonth == 1)
                     {
@@ -231,6 +255,8 @@ namespace RGRAB
                     }
 
                     string preMonth = RetrieveData.getMonth(prevMonth);
+                    string currentMonth = RetrieveData.getMonth(currMonth);
+
 
                     if ((currMonth >= 1) && (currMonth <= 3))
                     {
@@ -241,7 +267,39 @@ namespace RGRAB
                     {
                         calcYear = DateTime.Now.Year.ToString();
                     }
+                    double baseUnit = Convert.ToDouble(RetrieveData.getReading(valueFlatNo, calcYear, "March"));
+                    double currentUnit = Convert.ToDouble(RetrieveData.getReading(valueFlatNo,currentYear,currentMonth));
+                    double prevUnit = Convert.ToDouble(RetrieveData.getReading(valueFlatNo, currentYear, preMonth));
 
+
+                    RetrieveData retrieveSubsidyRates = new RetrieveData();
+                    Double[] subRateArr = retrieveSubsidyRates.getSubSidyRates(currentMonth, currentYear);
+                    valueSub = subRateArr[0];
+                    valueunSub = subRateArr[1];
+
+                    double diffUnit = RetrieveData.calcConsumedUnit(baseUnit, currentUnit);
+                    double usageUnit = currentUnit - prevUnit;
+                    double maxUnit = baseUnit + 64;
+
+                    if (diffUnit > 64)
+                    {
+                        addUnit = (currentUnit - maxUnit);
+                        nonUnit = (maxUnit - prevUnit);
+                    }
+                    else
+                    {
+                        addUnit = 0.0;
+                        nonUnit = (currentUnit - prevUnit);
+                    }
+
+                    calcAmount = RetrieveData.calculateAmount(valueSub, valueunSub, addUnit, nonUnit);
+                    double totalAmount = calcAmount;
+                    
+                    // First lets build a SQL-Query again:
+                    sqlite_cmd1.CommandText = "UPDATE Gas_Reading SET Invoice_Amount = '" + totalAmount + "' and Invoice_Date = '"+ Today +"' where Reading_Month = '" + currentMonth + "' and Reading_Year = '" + currentYear + "' and Flat_No = '" + valueFlatNo + "';";
+
+                    //Execute the query
+                    sqlite_cmd1.ExecuteNonQuery();
                 }
             }
             catch (Exception ex)

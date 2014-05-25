@@ -77,9 +77,15 @@ namespace RGRAB
                 sqlite_cmd.ExecuteNonQuery();
 
                 //Creating the reading input table
-                sqlite_cmd.CommandText = "CREATE TABLE Gas_Reading (Flat_No varchar(10) NOT NULL, Reading_Year varchar(04) NOT NULL, Reading_Month varchar(10) NOT NULL, Reading_Date date, Reading_Unit double, Invoice_Date date, Paid_Date date, Invoice_Amount double, Paid_Amount double, PRIMARY KEY (Flat_No, Reading_Year, Reading_Month), FOREIGN KEY(Flat_No) REFERENCES Resident_Detail(Flat_No));";
+                sqlite_cmd.CommandText = "CREATE TABLE Gas_Reading (Flat_No varchar(10) NOT NULL, Reading_Year varchar(04) NOT NULL, Reading_Month varchar(10) NOT NULL, Reading_Date date, Reading_Unit double, PRIMARY KEY (Flat_No, Reading_Year, Reading_Month), FOREIGN KEY(Flat_No) REFERENCES Resident_Detail(Flat_No));";
                 //Execute the query
                 sqlite_cmd.ExecuteNonQuery();
+
+                //Creating the reading input table
+                sqlite_cmd.CommandText = "CREATE TABLE Invoice_Detail (Flat_No varchar(10) NOT NULL, Reading_Year varchar(04) NOT NULL, Reading_Month varchar(10) NOT NULL, Current_Date date, Current_Unit double,Last_Date date, Last_Unit double,Subsidy_Unit double, NonSubsidy_Unit double, Span varchar(02),Unit double, Invoice_Date date, Paid_Date date, Invoice_Amount double, Paid_Amount double, PRIMARY KEY (Flat_No, Reading_Year, Reading_Month), FOREIGN KEY(Flat_No) REFERENCES Resident_Detail(Flat_No));";
+                //Execute the query
+                sqlite_cmd.ExecuteNonQuery();
+
             }
             catch (Exception ex)
             {
