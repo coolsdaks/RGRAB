@@ -185,6 +185,10 @@ namespace RGRAB
         {
             string valueMonth = subBatchMonth.Text;
             string currentYear = DateTime.Now.Year.ToString();
+            string calcYear = "";
+            DateTime tempYear;
+            int prevMonth = 0;
+            int currMonth = 0;
 
             SQLiteConnection sqlite_conn;
             SQLiteCommand sqlite_cmd;
@@ -215,7 +219,28 @@ namespace RGRAB
                     string valueUnit = sqlite_datareader.GetString(2);
 
                     //calculate the previous month
-                    string valMonth = DateTime.Parse(valueDate).Month.ToString();
+                    currMonth = DateTime.Parse(valueDate).Month;
+                    //Get previous month from the reading Month
+                    if (currMonth == 1)
+                    {
+                        prevMonth = 12;
+                    }
+                    else
+                    {
+                        prevMonth = currMonth - 1;
+                    }
+
+                    string preMonth = RetrieveData.getMonth(prevMonth);
+
+                    if ((currMonth >= 1) && (currMonth <= 3))
+                    {
+                        tempYear = DateTime.Today.AddYears(-1);
+                        calcYear = tempYear.Year.ToString();
+                    }
+                    else if ((currMonth >= 4) && (currMonth <= 12))
+                    {
+                        calcYear = DateTime.Now.Year.ToString();
+                    }
 
                 }
             }
