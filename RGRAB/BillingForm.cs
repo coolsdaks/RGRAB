@@ -93,6 +93,7 @@ namespace RGRAB
             string valueFlatNo = selFlatNo.Text;
             string valueDate = currentRD.Text;
             string calcYear = "";
+            string rdYear = "";
             DateTime tempYear;
             double addUnit = 0.0;
             double nonUnit = 0.0;
@@ -100,6 +101,8 @@ namespace RGRAB
             double valuePenalty = Convert.ToDouble(penaltyText.Text);
             double valueSub = 0.0;
             double valueunSub = 0.0;
+            DateTime today = DateTime.Today;
+            string Today = today.ToString("MM/dd/yyyy"); // As String
 
             DateTime minValue = Convert.ToDateTime(lastRD.Text).Date;
             DateTime maxValue = Convert.ToDateTime(currentRD.Text).Date;
@@ -119,10 +122,13 @@ namespace RGRAB
             if (tempMonth == 1)
             {
                 prevMonth1 = 12;
+                tempYear = DateTime.Today.AddYears(-1);
+                rdYear = tempYear.Year.ToString();
             }
             else
             {
                 prevMonth1 = tempMonth - 1;
+                rdYear = DateTime.Now.Year.ToString();
             }
 
             string prevMonth = RetrieveData.getMonth(prevMonth1);
@@ -148,11 +154,14 @@ namespace RGRAB
                     //Get the previous Month of the current reading Month
                     //DateTime tempMonth1 = DateTime.Today.AddMonths(-1); 
                     //DateTime tempMonth1 = DateTime.rdMonth.AddMonths(-1);
-
+            string prevDate = RetrieveData.Retrieve_LastRD(valueFlatNo, prevMonth, rdYear);
             //Get baseline units for consumption calculation
             double baseUnit = Convert.ToDouble(RetrieveData.getReading(valueFlatNo, calcYear, "March"));
             double currentUnit = Convert.ToDouble(RetrieveData.getReading(valueFlatNo, valueYear, currentMonth));
             double prevUnit = Convert.ToDouble(RetrieveData.getReading(valueFlatNo, valueYear, prevMonth));
+            string currUnit = currentUnit.ToString("0.00");
+            string preUnit = prevUnit.ToString("0.00");
+
 
             double diffUnit = RetrieveData.calcConsumedUnit(baseUnit, currentUnit);
             double usageUnit = currentUnit - prevUnit;
@@ -186,6 +195,41 @@ namespace RGRAB
             double totalAmount = calcAmount + valuePenalty;
             valueTotalAmount.Text = totalAmount.ToString("0.00");
 
+            SQLiteConnection sqlite_conn;
+            SQLiteCommand sqlite_cmd;
+
+            // create a new database connection:
+            sqlite_conn = new SQLiteConnection("Data Source=GasDb.db;Version=3;New=False;Compress=True;");
+
+            // open the connection:
+            sqlite_conn.Open();
+
+            // create a new SQL command:
+            sqlite_cmd = sqlite_conn.CreateCommand();
+            try
+            {
+                // First lets build a SQL-Query again:
+                sqlite_cmd.CommandText = "INSERT INTO Invoice_Detail (Flat_No, Reading_Year, Reading_Month, Current_Date, Current_Unit, Last_Date, Last_Unit,Subsidy_Unit, NonSubsidy_Unit, Span,Unit, Invoice_Date, Invoice_Amount) values ('" + valueFlatNo + "','" + currentYear + "', '" + currentMonth + "', '" + valueDate + "', '" + currUnit + "', '" + prevDate + "','" + preUnit + "', '" + subUnits.Text + "', '" + nonsubUnits.Text + "','" + span + "', '" + textUnits.Text + "','" + Today + "','" + valueTotalAmount.Text + "');";
+                //Execute the query
+                sqlite_cmd.ExecuteNonQuery();
+            }
+            catch (Exception ex)
+            {
+                string errMessage = ex.Message;
+                if (errMessage == "columns Flat_No, Reading_Year, Reading_Month are not unique")
+                {
+                    MessageBox.Show("Bill has already been calculated for '"+ valueFlatNo +"'", "Information!", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                }
+                else
+                {
+                    MessageBox.Show(ex.Message.ToString(), "Error!", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+            }
+            finally
+            {
+                // We are ready, now lets cleanup and close our connection:
+                sqlite_conn.Close();
+            }
         }
 
         private void clkBatchCalculate_Click(object sender, EventArgs e)
@@ -194,6 +238,7 @@ namespace RGRAB
             string currentYear = DateTime.Now.Year.ToString();
             string calcYear = "";
             DateTime tempYear;
+            string rdYear = "";
             int prevMonth = 0;
             int currMonth = 0;
             double addUnit = 0.0;
@@ -248,10 +293,13 @@ namespace RGRAB
                     if (currMonth == 1)
                     {
                         prevMonth = 12;
+                        tempYear = DateTime.Today.AddYears(-1);
+                        rdYear = tempYear.Year.ToString();
                     }
                     else
                     {
                         prevMonth = currMonth - 1;
+                        rdYear = DateTime.Now.Year.ToString();
                     }
 
                     string preMonth = RetrieveData.getMonth(prevMonth);
@@ -267,9 +315,17 @@ namespace RGRAB
                     {
                         calcYear = DateTime.Now.Year.ToString();
                     }
+
+                    //code to determine the previous month reading date
+                    string prevDate = RetrieveData.Retrieve_LastRD(valueFlatNo, preMonth, rdYear);
+                    DateTime minValue = Convert.ToDateTime(prevDate).Date;
+                    DateTime maxValue = Convert.ToDateTime(valueDate).Date;
+                    TimeSpan diff = maxValue - minValue;
+                    string span = diff.TotalDays.ToString();
+
                     double baseUnit = Convert.ToDouble(RetrieveData.getReading(valueFlatNo, calcYear, "March"));
                     double currentUnit = Convert.ToDouble(RetrieveData.getReading(valueFlatNo,currentYear,currentMonth));
-                    double prevUnit = Convert.ToDouble(RetrieveData.getReading(valueFlatNo, currentYear, preMonth));
+                    double prevUnit = Convert.ToDouble(RetrieveData.getReading(valueFlatNo, rdYear, preMonth));
 
 
                     RetrieveData retrieveSubsidyRates = new RetrieveData();
@@ -278,33 +334,39 @@ namespace RGRAB
                     valueunSub = subRateArr[1];
 
                     double diffUnit = RetrieveData.calcConsumedUnit(baseUnit, currentUnit);
-                    double usageUnit = currentUnit - prevUnit;
+                    double usageUnit = Math.Round((currentUnit - prevUnit),2);
                     double maxUnit = baseUnit + 64;
 
-                    if (diffUnit > 64)
+                    if (diffUnit > 64 && prevUnit < maxUnit)
                     {
-                        addUnit = (currentUnit - maxUnit);
-                        nonUnit = (maxUnit - prevUnit);
+                        addUnit = Math.Round((currentUnit - maxUnit),2);
+                        nonUnit = Math.Round((maxUnit - prevUnit),2);
                     }
-                    else
+                    else if (diffUnit > 64 && prevUnit > maxUnit)
+                    {
+                        addUnit = Math.Round((currentUnit - prevUnit),2);
+                        nonUnit = 0.0;
+                    }
+                    else if (diffUnit < 64)
                     {
                         addUnit = 0.0;
-                        nonUnit = (currentUnit - prevUnit);
+                        nonUnit = Math.Round((currentUnit - prevUnit),2);
                     }
 
                     calcAmount = RetrieveData.calculateAmount(valueSub, valueunSub, addUnit, nonUnit);
-                    double totalAmount = calcAmount;
+                    double totalAmount = Math.Round(calcAmount, 2);
                     
                     // First lets build a SQL-Query again:
-                    sqlite_cmd1.CommandText = "UPDATE Gas_Reading SET Invoice_Amount = '" + totalAmount + "' and Invoice_Date = '"+ Today +"' where Reading_Month = '" + currentMonth + "' and Reading_Year = '" + currentYear + "' and Flat_No = '" + valueFlatNo + "';";
-
+                    sqlite_cmd1.CommandText = "INSERT INTO Invoice_Detail (Flat_No, Reading_Year, Reading_Month, Current_Date, Current_Unit, Last_Date, Last_Unit,Subsidy_Unit, NonSubsidy_Unit, Span,Unit, Invoice_Date, Invoice_Amount) values ('" + valueFlatNo + "','" + currentYear + "', '" + currentMonth + "', '" + valueDate + "', '" + currentUnit + "', '"+ prevDate +"','" + prevUnit + "', '" + nonUnit + "', '" + addUnit + "','" + span + "', '" + usageUnit + "','" + Today + "','"+ totalAmount +"');";
                     //Execute the query
                     sqlite_cmd1.ExecuteNonQuery();
                 }
+                
+                MessageBox.Show("Invoice Date succeessfully calculated", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message.ToString());
+                MessageBox.Show(ex.Message.ToString(), "Error!", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
             finally
             {

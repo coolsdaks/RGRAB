@@ -41,34 +41,7 @@ namespace RGRAB
                 //sqlite_cmd.CommandText = "CREATE TABLE SubValue (id integer PRIMARY KEY, Month varchar(10) NOT NULL, Subsidized double, NonSubsidized double);";
                 sqlite_cmd.CommandText = "CREATE TABLE SubValue (Year Varchar(04) NOT NULL, Month varchar(10) NOT NULL, Subsidized double, NonSubsidized double, PRIMARY KEY(Year,Month));";
 
-
                 // Now lets execute the SQL ;D
-                sqlite_cmd.ExecuteNonQuery();
-
-                //Entering Initial data for Subsidy table
-                sqlite_cmd.CommandText = "INSERT INTO SubValue (Year, Month, Subsidized, NonSubsidized) VALUES ('"+ currentYear +"', 'January', 0.00, 0.00);";
-                sqlite_cmd.ExecuteNonQuery();
-                sqlite_cmd.CommandText = "INSERT INTO SubValue (Year, Month, Subsidized, NonSubsidized) VALUES ('" + currentYear + "', 'February', 0.00, 0.00);";
-                sqlite_cmd.ExecuteNonQuery();
-                sqlite_cmd.CommandText = "INSERT INTO SubValue (Year, Month, Subsidized, NonSubsidized) VALUES ('" + currentYear + "', 'March', 0.00, 0.00);";
-                sqlite_cmd.ExecuteNonQuery();
-                sqlite_cmd.CommandText = "INSERT INTO SubValue (Year, Month, Subsidized, NonSubsidized) VALUES ('" + currentYear + "', 'April', 0.00, 0.00);";
-                sqlite_cmd.ExecuteNonQuery();
-                sqlite_cmd.CommandText = "INSERT INTO SubValue (Year, Month, Subsidized, NonSubsidized) VALUES ('" + currentYear + "', 'May', 0.00, 0.00);";
-                sqlite_cmd.ExecuteNonQuery();
-                sqlite_cmd.CommandText = "INSERT INTO SubValue (Year, Month, Subsidized, NonSubsidized) VALUES ('" + currentYear + "', 'June', 0.00, 0.00);";
-                sqlite_cmd.ExecuteNonQuery();
-                sqlite_cmd.CommandText = "INSERT INTO SubValue (Year, Month, Subsidized, NonSubsidized) VALUES ('" + currentYear + "', 'July', 0.00, 0.00);";
-                sqlite_cmd.ExecuteNonQuery();
-                sqlite_cmd.CommandText = "INSERT INTO SubValue (Year, Month, Subsidized, NonSubsidized) VALUES ('" + currentYear + "', 'August', 0.00, 0.00);";
-                sqlite_cmd.ExecuteNonQuery();
-                sqlite_cmd.CommandText = "INSERT INTO SubValue (Year, Month, Subsidized, NonSubsidized) VALUES ('" + currentYear + "', 'September', 0.00, 0.00);";
-                sqlite_cmd.ExecuteNonQuery();
-                sqlite_cmd.CommandText = "INSERT INTO SubValue (Year, Month, Subsidized, NonSubsidized) VALUES ('" + currentYear + "', 'October', 0.00, 0.00);";
-                sqlite_cmd.ExecuteNonQuery();
-                sqlite_cmd.CommandText = "INSERT INTO SubValue (Year, Month, Subsidized, NonSubsidized) VALUES ('" + currentYear + "', 'November', 0.00, 0.00);";
-                sqlite_cmd.ExecuteNonQuery();
-                sqlite_cmd.CommandText = "INSERT INTO SubValue (Year, Month, Subsidized, NonSubsidized) VALUES ('" + currentYear + "', 'December', 0.00, 0.00);";
                 sqlite_cmd.ExecuteNonQuery();
 
                 //Creating the Resident information table
@@ -82,9 +55,12 @@ namespace RGRAB
                 sqlite_cmd.ExecuteNonQuery();
 
                 //Creating the reading input table
-                sqlite_cmd.CommandText = "CREATE TABLE Invoice_Detail (Flat_No varchar(10) NOT NULL, Reading_Year varchar(04) NOT NULL, Reading_Month varchar(10) NOT NULL, Current_Date date, Current_Unit double,Last_Date date, Last_Unit double,Subsidy_Unit double, NonSubsidy_Unit double, Span varchar(02),Unit double, Invoice_Date date, Paid_Date date, Invoice_Amount double, Paid_Amount double, PRIMARY KEY (Flat_No, Reading_Year, Reading_Month), FOREIGN KEY(Flat_No) REFERENCES Resident_Detail(Flat_No));";
+                sqlite_cmd.CommandText = "CREATE TABLE Invoice_Detail (Flat_No varchar(10) NOT NULL, Reading_Year varchar(04) NOT NULL, Reading_Month varchar(10) NOT NULL, Current_Date date, Current_Unit varchar(06),Last_Date date, Last_Unit varchar(06),Subsidy_Unit varchar(06), NonSubsidy_Unit varchar(06), Span varchar(02),Unit varchar(06), Invoice_Date date, Paid_Date date, Invoice_Amount varchar(10), Paid_Amount varchar(10), PRIMARY KEY (Flat_No, Reading_Year, Reading_Month), FOREIGN KEY(Flat_No) REFERENCES Resident_Detail(Flat_No));";
                 //Execute the query
                 sqlite_cmd.ExecuteNonQuery();
+
+                Cursor.Current = Cursors.Default;              
+                MessageBox.Show("All Databases successfully created", "Success",MessageBoxButtons.OK, MessageBoxIcon.Information);
 
             }
             catch (Exception ex)
@@ -95,8 +71,6 @@ namespace RGRAB
             {
                 // We are ready, now lets cleanup and close our connection:
                 sqlite_conn.Close();
-                Cursor.Current = Cursors.Default;
-                MessageBox.Show("All Databases successfully created");
             }
             
         }

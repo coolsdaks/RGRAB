@@ -169,5 +169,40 @@ namespace RGRAB
 
             return(valueAmount);
         }
+
+        public static string Retrieve_LastRD(string tempFlatNo, string tempMonth, string tempYear)
+        {
+            string tempDate = "";
+            SQLiteConnection sqlite_conn;
+            SQLiteCommand sqlite_cmd;
+            SQLiteDataReader sqlite_datareader;
+
+            // create a new database connection:
+            sqlite_conn = new SQLiteConnection("Data Source=GasDb.db;Version=3;New=False;Compress=True;");
+
+            // open the connection:
+            sqlite_conn.Open();
+
+            // create a new SQL command:
+            sqlite_cmd = sqlite_conn.CreateCommand();
+
+            // First lets build a SQL-Query again:
+            sqlite_cmd.CommandText = "SELECT Reading_Date FROM Gas_Reading where Flat_No = '" + tempFlatNo + "' and Reading_Month = '" + tempMonth + "' and Reading_Year = '" + tempYear + "'; ";
+
+            // Now the SQLiteCommand object can give us a DataReader-Object:
+            sqlite_datareader = sqlite_cmd.ExecuteReader();
+
+            // The SQLiteDataReader allows us to run through the result lines:
+            while (sqlite_datareader.Read()) // Read() returns true if there is still a result line to read
+            {
+                // Print out the content of the text field:
+                tempDate = sqlite_datareader.GetString(0);
+            }
+
+            // We are ready, now lets cleanup and close our connection:
+            sqlite_conn.Close();
+
+            return (tempDate);
+        }
     }
 }
