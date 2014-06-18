@@ -101,6 +101,7 @@
     <Compile Include="DBForm.Designer.cs">
       <DependentUpon>DBForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="Invoice_Retrieve.cs" />
     <Compile Include="MainForm.cs">
       <SubType>Form</SubType>
     </Compile>

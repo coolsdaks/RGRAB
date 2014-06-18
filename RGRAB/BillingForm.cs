@@ -25,6 +25,7 @@ namespace RGRAB
                 selFlatNo.Items.Add(listFlatNo[i]);
             }
         }
+        double itemCount = 0;
         private void clkCloseInput_Click(object sender, EventArgs e)
         {
             this.Close();
@@ -362,7 +363,7 @@ namespace RGRAB
                     sqlite_cmd1.ExecuteNonQuery();
                 }
                 
-                MessageBox.Show("Invoice Date succeessfully calculated", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                MessageBox.Show("Invoice Data succeessfully calculated", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
             catch (Exception ex)
             {
@@ -374,25 +375,73 @@ namespace RGRAB
                 sqlite_conn.Close();
             }
         }
+        
+        private void clkBatchGenerateInvoice_Click(object sender, EventArgs e)
+        {
+            string valueMonth = subBatchMonth.Text;
+            string currentYear = DateTime.Now.Year.ToString();
+            Double rowCount = 0;
 
+            if (valueMonth == "")
+            {
+                MessageBox.Show("Please select the month for Batch Invoicing", "Warning!",MessageBoxButtons.OK,MessageBoxIcon.Warning);
+                return;
+            }
+            SQLiteConnection sqlite_conn;
+            SQLiteCommand sqlite_cmd;
+            SQLiteDataReader sqlite_datareader;
+
+            // create a new database connection:
+            sqlite_conn = new SQLiteConnection("Data Source=GasDb.db;Version=3;New=False;Compress=True;");
+
+            // open the connection:
+            sqlite_conn.Open();
+
+            // create a new SQL command:
+            sqlite_cmd = sqlite_conn.CreateCommand();
+
+            // First lets build a SQL-Query again:
+            sqlite_cmd.CommandText = "SELECT Count(*) FROM Invoice_Detail where Reading_Month = '" + valueMonth + "' and Reading_Year = '" + currentYear + "';";
+
+            // Now the SQLiteCommand object can give us a DataReader-Object:
+            sqlite_datareader = sqlite_cmd.ExecuteReader();
+
+            // The SQLiteDataReader allows us to run through the result lines:
+            while (sqlite_datareader.Read()) // Read() returns true if there is still a result line to read
+            {
+                rowCount = Convert.ToDouble(sqlite_datareader.GetString(0));
+            }
+            
+            if (rowCount == 0)
+            {
+                MessageBox.Show("No Data found for the selected month '" + valueMonth + "'", "Warning", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+            }
+            else
+            {
+                // We are ready, now lets cleanup and close our connection
+                sqlite_conn.Close();
+                itemCount = rowCount;
+                print();
+            }
+            
+        }
         private void clkGenerateInvoice_Click(object sender, EventArgs e)
         {
             print();
         }
         public void print()
         {
-            PrintDocument pdoc = null;
+            PrintDocument pdoc = new PrintDocument();
             PrintDialog pd = new PrintDialog();
-            pdoc = new PrintDocument();
             PrinterSettings ps = new PrinterSettings();
             Font font = new Font("Courier New", 15);
 
 
-            PaperSize psize = new PaperSize("A4", 827, 1170);
+            //PaperSize psize = new PaperSize("A4", 827, 1170);
             //ps.DefaultPageSettings.PaperSize = psize;
 
             pd.Document = pdoc;
-            pd.Document.DefaultPageSettings.PaperSize = psize;
+            //pd.Document.DefaultPageSettings.PaperSize = psize;
             //pdoc.DefaultPageSettings.PaperSize.Height = 820;
             //pdoc.DefaultPageSettings.PaperSize.Width = 520;
             pdoc.DefaultPageSettings.Margins.Bottom = 0;
@@ -418,121 +467,184 @@ namespace RGRAB
         void pdoc_PrintPage(object sender, PrintPageEventArgs e)
         {
 
-            DateTime today = DateTime.Today;
-            string Today = today.ToString("MM/dd/yyyy"); // As String
-            string FlatNo = selFlatNo.Text;
-            string ResidentName = currentResident.Text;
-            string SubsidyStatus = subStatus.Text;
-            string LastRdDate = lastRD.Text;
-            string CurrentRdDate = currentRD.Text;
-            string LastUnit = lastUnit.Text;
-            string CurrentUnit = currentUnit.Text;
-            string SubRate = textSubsidyRate.Text;
-            string NonSubRate = textNonSubsidyRate.Text;
-            string SubUnit = subUnits.Text;
-            string NonSubUnit = nonsubUnits.Text;
-            string Span = textUsage.Text;
-            string Penalty = penaltyText.Text;
-            string Units = textUnits.Text;
-            string Amount = valueAmount.Text;
-            string TotalAmount = valueTotalAmount.Text;
+            string valueMonth = subBatchMonth.Text;
+            string currentYear = DateTime.Now.Year.ToString();
+            string underLine = "-----------------------------------------------------";
+            string seperator = "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~";
+            String Society = "Mont Vert Seville, Wakad";
+            string valueSub = "0.00";
+            string valueNonSub = "0.00";
+
+
             Graphics graphics = e.Graphics;
             Font font = new Font("Courier New", 10);
-            string underLine = "-----------------------------------------------------";
+            SolidBrush brush = new SolidBrush(Color.Black);
+            e.PageSettings.PaperSize = new PaperSize("A4", 850, 1100);
+            float pageWidth = e.PageSettings.PrintableArea.Width;
+            float pageHeight = e.PageSettings.PrintableArea.Height;
 
-            float fontHeight = font.GetHeight();
-            
+            //float fontHeight = font.GetHeight();
+           
             int startX = 50;
             int startX1 = 600;
             int startY = 25;
             int OffsetY = 20;
             int OffsetX = 220;
-            graphics.DrawString("   Mont Vert Seville CHS Gas Receipt", new Font("Courier New", 14, FontStyle.Bold),new SolidBrush(Color.DarkBlue), startX, startY + OffsetY);
-            graphics.DrawString("   Mont Vert Seville CHS Gas Receipt", new Font("Courier New", 14, FontStyle.Bold), new SolidBrush(Color.DarkBlue), startX1, startY + OffsetY);
-            
-            OffsetY = OffsetY + 30;
-            graphics.DrawString("Date:" + Today, new Font("Courier New", 10),new SolidBrush(Color.Black), startX, startY + OffsetY);
-            graphics.DrawString("Date:" + Today, new Font("Courier New", 10), new SolidBrush(Color.Black), startX1, startY + OffsetY);
-            
-            OffsetY = OffsetY + 10;
-            graphics.DrawString(underLine, new Font("Courier New", 10), new SolidBrush(Color.Black), startX, startY + OffsetY);
-            graphics.DrawString(underLine, new Font("Courier New", 10), new SolidBrush(Color.Black), startX1, startY + OffsetY);
 
-            OffsetY = OffsetY + 10;
-            graphics.DrawString("Flat No :" + FlatNo,new Font("Courier New", 10),new SolidBrush(Color.Black), startX, startY + OffsetY);
-            graphics.DrawString("Flat No :" + FlatNo, new Font("Courier New", 10), new SolidBrush(Color.Black), startX1, startY + OffsetY);
+            SQLiteConnection sqlite_conn;
+            SQLiteCommand sqlite_cmd;
+            SQLiteDataReader sqlite_datareader;
 
-            graphics.DrawString("Subsidy Status :" + SubsidyStatus, new Font("Courier New", 10), new SolidBrush(Color.Black), startX + OffsetX, startY + OffsetY);
-            graphics.DrawString("Subsidy Status :" + SubsidyStatus, new Font("Courier New", 10), new SolidBrush(Color.Black), startX1 + OffsetX, startY + OffsetY);
 
-            OffsetY = OffsetY + 15;
-            graphics.DrawString("Name :" + ResidentName, new Font("Courier New", 10), new SolidBrush(Color.Black), startX, startY + OffsetY);
-            graphics.DrawString("Name :" + ResidentName, new Font("Courier New", 10), new SolidBrush(Color.Black), startX1, startY + OffsetY);
+            // create a new database connection:
+            sqlite_conn = new SQLiteConnection("Data Source=GasDb.db;Version=3;New=False;Compress=True;");
 
-            OffsetY = OffsetY + 15;
-            String Society = "Mont Vert Seville, Wakad"; 
-            graphics.DrawString(Society, new Font("Courier New", 10), new SolidBrush(Color.Black), startX, startY + OffsetY);
-            graphics.DrawString(Society, new Font("Courier New", 10), new SolidBrush(Color.Black), startX1, startY + OffsetY);
+            // open the connection:
+            sqlite_conn.Open();
 
-            OffsetY = OffsetY + 10;
-            graphics.DrawString(underLine, new Font("Courier New", 10), new SolidBrush(Color.Black), startX, startY + OffsetY);
-            graphics.DrawString(underLine, new Font("Courier New", 10), new SolidBrush(Color.Black), startX1, startY + OffsetY);
+            // create a new SQL command:
+            sqlite_cmd = sqlite_conn.CreateCommand();
 
-            OffsetY = OffsetY + 10;
-            graphics.DrawString("Last Rd Date :" + LastRdDate, new Font("Courier New", 10), new SolidBrush(Color.Black), startX , startY + OffsetY);
-            graphics.DrawString("Last Rd Date :" + LastRdDate, new Font("Courier New", 10), new SolidBrush(Color.Black), startX1, startY + OffsetY);
+            // First lets build a SQL-Query again:
+            sqlite_cmd.CommandText = "SELECT Subsidized, NonSubsidized FROM SubValue where Month = '" + valueMonth + "' and Year = '" + currentYear + "';";
 
-            graphics.DrawString("Current Rd Date :" + CurrentRdDate, new Font("Courier New", 10), new SolidBrush(Color.Black), startX + OffsetX, startY + OffsetY);
-            graphics.DrawString("Current Rd Date :" + CurrentRdDate, new Font("Courier New", 10), new SolidBrush(Color.Black), startX1 + OffsetX, startY + OffsetY);
+            // Now the SQLiteCommand object can give us a DataReader-Object:
+            sqlite_datareader = sqlite_cmd.ExecuteReader();
 
-            OffsetY = OffsetY + 15;
-            graphics.DrawString("Last Rd Unit :" + LastUnit, new Font("Courier New", 10), new SolidBrush(Color.Black), startX, startY + OffsetY);
-            graphics.DrawString("Last Rd Unit :" + LastUnit, new Font("Courier New", 10), new SolidBrush(Color.Black), startX1, startY + OffsetY);
+            while (sqlite_datareader.Read()) // Read() returns true if there is still a result line to read
+            {
+                valueSub = sqlite_datareader.GetString(0);
+                valueNonSub = sqlite_datareader.GetString(1);
+            }
 
-            graphics.DrawString("Current Rd Unit :" + CurrentUnit, new Font("Courier New", 10), new SolidBrush(Color.Black), startX + OffsetX, startY + OffsetY);
-            graphics.DrawString("Current Rd Unit :" + CurrentUnit, new Font("Courier New", 10), new SolidBrush(Color.Black), startX1 + OffsetX, startY + OffsetY);
-            
-            OffsetY = OffsetY + 15;
-            graphics.DrawString("Subsidized Unit :" + SubUnit, new Font("Courier New", 10), new SolidBrush(Color.Black), startX, startY + OffsetY);
-            graphics.DrawString("Subsidized Unit :" + SubUnit, new Font("Courier New", 10), new SolidBrush(Color.Black), startX1, startY + OffsetY);
+            // We are ready, now lets cleanup and close our connection:
+            sqlite_conn.Close();
+            FirstLoad fstLoad = new FirstLoad();
+            List<Invoice_Retrieve> invoiceDetList = fstLoad.getInvoiceDetail(valueMonth, currentYear);
+            foreach (var invoiceDet in invoiceDetList) // Loop through List with for
+            {
+                DateTime today = DateTime.Today;
+                string Today = today.ToString("MM/dd/yyyy"); // As String
+                string flatNo = invoiceDet.FlatNo;
+                string residentName = invoiceDet.Name;
+                string subsidyStatus = invoiceDet.SubStatus;
+                string lastRdDate = invoiceDet.LastDate;
+                string currentRdDate = invoiceDet.CurrentDate;
+                string lastUnit = invoiceDet.LastUnit;
+                string currentUnit = invoiceDet.CurrentUnit;
+                string subRate = valueSub;
+                string nonSubRate = valueNonSub;
+                string subUnit = invoiceDet.SubsidyUnit;
+                string nonSubUnit = invoiceDet.NonSubsidyUnit;
+                string span = invoiceDet.Span;
+                string penalty = "0.00";
+                string units = invoiceDet.Unit;
+                string amount = invoiceDet.Amount;
+                string totalAmount = invoiceDet.Amount;
 
-            graphics.DrawString("Non Subsidized Unit :" + NonSubUnit, new Font("Courier New", 10), new SolidBrush(Color.Black), startX + OffsetX, startY + OffsetY);
-            graphics.DrawString("Non Subsidized Unit :" + NonSubUnit, new Font("Courier New", 10), new SolidBrush(Color.Black), startX1 + OffsetX, startY + OffsetY);
-            
-            OffsetY = OffsetY + 15;
-            graphics.DrawString("Subsidized Rate :" + SubRate, new Font("Courier New", 10), new SolidBrush(Color.Black), startX, startY + OffsetY);
-            graphics.DrawString("Subsidized Rate :" + SubRate, new Font("Courier New", 10), new SolidBrush(Color.Black), startX1, startY + OffsetY);
+                graphics.DrawString("   Mont Vert Seville CHS Gas Receipt", new Font("Courier New", 14, FontStyle.Bold), brush, startX, startY + OffsetY);
+                graphics.DrawString("   Mont Vert Seville CHS Gas Receipt", new Font("Courier New", 14, FontStyle.Bold), brush, startX1, startY + OffsetY);
 
-            graphics.DrawString("Non Subsidized Rate :" + NonSubRate, new Font("Courier New", 10), new SolidBrush(Color.Black), startX + OffsetX, startY + OffsetY);
-            graphics.DrawString("Non Subsidized Rate :" + NonSubRate, new Font("Courier New", 10), new SolidBrush(Color.Black), startX1 + OffsetX, startY + OffsetY);
-            
-            OffsetY = OffsetY + 10;
-            graphics.DrawString(underLine, new Font("Courier New", 10), new SolidBrush(Color.Black), startX, startY + OffsetY);
-            graphics.DrawString(underLine, new Font("Courier New", 10), new SolidBrush(Color.Black), startX1, startY + OffsetY);
-            
-            OffsetY = OffsetY + 10;
-            graphics.DrawString("Usage Days :" + Span, new Font("Courier New", 10), new SolidBrush(Color.Black), startX, startY + OffsetY);
-            graphics.DrawString("Usage Days :" + Span, new Font("Courier New", 10), new SolidBrush(Color.Black), startX1, startY + OffsetY);
-            
-            graphics.DrawString("Penalty Amount :" + Penalty, new Font("Courier New", 10), new SolidBrush(Color.Black), startX + OffsetX, startY + OffsetY);
-            graphics.DrawString("Penalty Amount :" + Penalty, new Font("Courier New", 10), new SolidBrush(Color.Black), startX1 + OffsetX, startY + OffsetY);
+                OffsetY = OffsetY + 30;
+                graphics.DrawString("Date:" + Today, font, brush, startX, startY + OffsetY);
+                graphics.DrawString("Date:" + Today, font, brush, startX1, startY + OffsetY);
 
-            OffsetY = OffsetY + 15;
-            graphics.DrawString("Usage Units :" + Units, new Font("Courier New", 10), new SolidBrush(Color.Black), startX, startY + OffsetY);
-            graphics.DrawString("Usage Units :" + Units, new Font("Courier New", 10), new SolidBrush(Color.Black), startX1, startY + OffsetY);
+                OffsetY = OffsetY + 10;
+                graphics.DrawString(underLine, font, brush, startX, startY + OffsetY);
+                graphics.DrawString(underLine, font, brush, startX1, startY + OffsetY);
 
-            graphics.DrawString("Amount :" + Amount, new Font("Courier New", 10), new SolidBrush(Color.Black), startX + OffsetX, startY + OffsetY);
-            graphics.DrawString("Amount :" + Amount, new Font("Courier New", 10), new SolidBrush(Color.Black), startX1 + OffsetX, startY + OffsetY);
+                OffsetY = OffsetY + 10;
+                graphics.DrawString("Flat No :" + flatNo, new Font("Courier New", 10, FontStyle.Bold), brush, startX, startY + OffsetY);
+                graphics.DrawString("Flat No :" + flatNo, new Font("Courier New", 10, FontStyle.Bold), brush, startX1, startY + OffsetY);
 
-            OffsetY = OffsetY + 20;
-            graphics.DrawString("Total Amount :" + TotalAmount, new Font("Courier New", 11, FontStyle.Bold), new SolidBrush(Color.Black), startX + OffsetX, startY + OffsetY);
-            graphics.DrawString("Total Amount :" + TotalAmount, new Font("Courier New", 11, FontStyle.Bold), new SolidBrush(Color.Black), startX1 + OffsetX, startY + OffsetY);
+                graphics.DrawString("Subsidy Status :" + subsidyStatus, new Font("Courier New", 10, FontStyle.Bold), brush, startX + OffsetX, startY + OffsetY);
+                graphics.DrawString("Subsidy Status :" + subsidyStatus, new Font("Courier New", 10, FontStyle.Bold), brush, startX1 + OffsetX, startY + OffsetY);
 
-            OffsetY = OffsetY + 10;
-            graphics.DrawString(underLine, new Font("Courier New", 10), new SolidBrush(Color.Black), startX, startY + OffsetY);
-            graphics.DrawString(underLine, new Font("Courier New", 10), new SolidBrush(Color.Black), startX1, startY + OffsetY);
+                OffsetY = OffsetY + 15;
+                graphics.DrawString("Name :" + residentName, font, brush, startX, startY + OffsetY);
+                graphics.DrawString("Name :" + residentName, font, brush, startX1, startY + OffsetY);
 
-         
+                OffsetY = OffsetY + 15;
+
+                graphics.DrawString(Society, font, brush, startX, startY + OffsetY);
+                graphics.DrawString(Society, font, brush, startX1, startY + OffsetY);
+
+                OffsetY = OffsetY + 10;
+                graphics.DrawString(underLine, font, brush, startX, startY + OffsetY);
+                graphics.DrawString(underLine, font, brush, startX1, startY + OffsetY);
+
+                OffsetY = OffsetY + 10;
+                graphics.DrawString("Last Rd Date :" + lastRdDate, font, brush, startX, startY + OffsetY);
+                graphics.DrawString("Last Rd Date :" + lastRdDate, font, brush, startX1, startY + OffsetY);
+
+                graphics.DrawString("Current Rd Date :" + currentRdDate, font, brush, startX + OffsetX, startY + OffsetY);
+                graphics.DrawString("Current Rd Date :" + currentRdDate, font, brush, startX1 + OffsetX, startY + OffsetY);
+
+                OffsetY = OffsetY + 15;
+                graphics.DrawString("Last Rd Unit :" + lastUnit, font, brush, startX, startY + OffsetY);
+                graphics.DrawString("Last Rd Unit :" + lastUnit, font, brush, startX1, startY + OffsetY);
+
+                graphics.DrawString("Current Rd Unit :" + currentUnit, font, brush, startX + OffsetX, startY + OffsetY);
+                graphics.DrawString("Current Rd Unit :" + currentUnit, font, brush, startX1 + OffsetX, startY + OffsetY);
+
+                OffsetY = OffsetY + 15;
+                graphics.DrawString("Subsidized Unit :" + subUnit, font, brush, startX, startY + OffsetY);
+                graphics.DrawString("Subsidized Unit :" + subUnit, font, brush, startX1, startY + OffsetY);
+
+                graphics.DrawString("Non Subsidized Unit :" + nonSubUnit, font, brush, startX + OffsetX, startY + OffsetY);
+                graphics.DrawString("Non Subsidized Unit :" + nonSubUnit, font, brush, startX1 + OffsetX, startY + OffsetY);
+
+                OffsetY = OffsetY + 15;
+                graphics.DrawString("Subsidized Rate :" + subRate, font, brush, startX, startY + OffsetY);
+                graphics.DrawString("Subsidized Rate :" + subRate, font, brush, startX1, startY + OffsetY);
+
+                graphics.DrawString("Non Subsidized Rate :" + nonSubRate, font, brush, startX + OffsetX, startY + OffsetY);
+                graphics.DrawString("Non Subsidized Rate :" + nonSubRate, font, brush, startX1 + OffsetX, startY + OffsetY);
+
+                OffsetY = OffsetY + 10;
+                graphics.DrawString(underLine, font, brush, startX, startY + OffsetY);
+                graphics.DrawString(underLine, font, brush, startX1, startY + OffsetY);
+
+                OffsetY = OffsetY + 10;
+                graphics.DrawString("Usage Days :" + span, font, brush, startX, startY + OffsetY);
+                graphics.DrawString("Usage Days :" + span, font, brush, startX1, startY + OffsetY);
+
+                graphics.DrawString("Penalty Amount :" + penalty, font, brush, startX + OffsetX, startY + OffsetY);
+                graphics.DrawString("Penalty Amount :" + penalty, font, brush, startX1 + OffsetX, startY + OffsetY);
+
+                OffsetY = OffsetY + 15;
+                graphics.DrawString("Usage Units :" + units, font, brush, startX, startY + OffsetY);
+                graphics.DrawString("Usage Units :" + units, font, brush, startX1, startY + OffsetY);
+
+                graphics.DrawString("Amount :" + amount, font, brush, startX + OffsetX, startY + OffsetY);
+                graphics.DrawString("Amount :" + amount, font, brush, startX1 + OffsetX, startY + OffsetY);
+
+                OffsetY = OffsetY + 20;
+                graphics.DrawString("Total Amount :" + totalAmount, new Font("Courier New", 11, FontStyle.Bold), brush, startX + OffsetX, startY + OffsetY);
+                graphics.DrawString("Total Amount :" + totalAmount, new Font("Courier New", 11, FontStyle.Bold), brush, startX1 + OffsetX, startY + OffsetY);
+
+                OffsetY = OffsetY + 10;
+                graphics.DrawString(underLine, font, brush, startX, startY + OffsetY);
+                graphics.DrawString(underLine, font, brush, startX1, startY + OffsetY);
+
+                OffsetY = OffsetY + 20;
+                graphics.DrawString(seperator, font, brush, startX, startY + OffsetY);
+                graphics.DrawString(seperator, font, brush, startX1, startY + OffsetY);
+
+                OffsetY = OffsetY + 20;
+
+                if (OffsetY >= pageHeight)
+                {
+                    e.HasMorePages = true;
+                    OffsetY = 0;
+                    return;
+                }
+                else
+                {
+                    e.HasMorePages = false;
+                }
+
+                }  
         }
 
         private void clkReset_Click(object sender, EventArgs e)

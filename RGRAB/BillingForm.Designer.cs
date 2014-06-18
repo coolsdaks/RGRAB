@@ -97,7 +97,7 @@
             "October",
             "November",
             "December"});
-            this.subBatchMonth.Location = new System.Drawing.Point(268, 23);
+            this.subBatchMonth.Location = new System.Drawing.Point(244, 23);
             this.subBatchMonth.Name = "subBatchMonth";
             this.subBatchMonth.Size = new System.Drawing.Size(142, 21);
             this.subBatchMonth.TabIndex = 8;
@@ -280,11 +280,11 @@
             // 
             // clkGenerateInvoice
             // 
-            this.clkGenerateInvoice.Location = new System.Drawing.Point(259, 390);
+            this.clkGenerateInvoice.Location = new System.Drawing.Point(223, 390);
             this.clkGenerateInvoice.Name = "clkGenerateInvoice";
-            this.clkGenerateInvoice.Size = new System.Drawing.Size(117, 26);
+            this.clkGenerateInvoice.Size = new System.Drawing.Size(190, 26);
             this.clkGenerateInvoice.TabIndex = 29;
-            this.clkGenerateInvoice.Text = "Generate Invoice";
+            this.clkGenerateInvoice.Text = "Print Individual Invoice";
             this.clkGenerateInvoice.UseVisualStyleBackColor = true;
             this.clkGenerateInvoice.Click += new System.EventHandler(this.clkGenerateInvoice_Click);
             // 
@@ -530,20 +530,21 @@
             // 
             // clkBatchGenerateInvoice
             // 
-            this.clkBatchGenerateInvoice.Location = new System.Drawing.Point(259, 58);
+            this.clkBatchGenerateInvoice.Location = new System.Drawing.Point(348, 58);
             this.clkBatchGenerateInvoice.Name = "clkBatchGenerateInvoice";
-            this.clkBatchGenerateInvoice.Size = new System.Drawing.Size(117, 40);
+            this.clkBatchGenerateInvoice.Size = new System.Drawing.Size(200, 40);
             this.clkBatchGenerateInvoice.TabIndex = 30;
-            this.clkBatchGenerateInvoice.Text = "Generate Invoice";
+            this.clkBatchGenerateInvoice.Text = "Generate and Print Batch Invoice";
             this.clkBatchGenerateInvoice.UseVisualStyleBackColor = true;
+            this.clkBatchGenerateInvoice.Click += new System.EventHandler(this.clkBatchGenerateInvoice_Click);
             // 
             // clkBatchCalculate
             // 
-            this.clkBatchCalculate.Location = new System.Drawing.Point(87, 58);
+            this.clkBatchCalculate.Location = new System.Drawing.Point(124, 58);
             this.clkBatchCalculate.Name = "clkBatchCalculate";
-            this.clkBatchCalculate.Size = new System.Drawing.Size(94, 40);
+            this.clkBatchCalculate.Size = new System.Drawing.Size(150, 40);
             this.clkBatchCalculate.TabIndex = 29;
-            this.clkBatchCalculate.Text = "Calculate";
+            this.clkBatchCalculate.Text = "Calculate Batch Invoice";
             this.clkBatchCalculate.UseVisualStyleBackColor = true;
             this.clkBatchCalculate.Click += new System.EventHandler(this.clkBatchCalculate_Click);
             // 
