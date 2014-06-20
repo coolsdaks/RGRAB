@@ -25,7 +25,8 @@ namespace RGRAB
                 selFlatNo.Items.Add(listFlatNo[i]);
             }
         }
-        double itemCount = 0;
+        int itemCount = 0;
+
         private void clkCloseInput_Click(object sender, EventArgs e)
         {
             this.Close();
@@ -152,9 +153,6 @@ namespace RGRAB
                 calcYear = DateTime.Now.Year.ToString();
             }
 
-                    //Get the previous Month of the current reading Month
-                    //DateTime tempMonth1 = DateTime.Today.AddMonths(-1); 
-                    //DateTime tempMonth1 = DateTime.rdMonth.AddMonths(-1);
             string prevDate = RetrieveData.Retrieve_LastRD(valueFlatNo, prevMonth, rdYear);
             //Get baseline units for consumption calculation
             double baseUnit = Convert.ToDouble(RetrieveData.getReading(valueFlatNo, calcYear, "March"));
@@ -210,9 +208,9 @@ namespace RGRAB
             try
             {
                 // First lets build a SQL-Query again:
-                sqlite_cmd.CommandText = "INSERT INTO Invoice_Detail (Flat_No, Reading_Year, Reading_Month, Current_Date, Current_Unit, Last_Date, Last_Unit,Subsidy_Unit, NonSubsidy_Unit, Span,Unit, Invoice_Date, Invoice_Amount) values ('" + valueFlatNo + "','" + currentYear + "', '" + currentMonth + "', '" + valueDate + "', '" + currUnit + "', '" + prevDate + "','" + preUnit + "', '" + subUnits.Text + "', '" + nonsubUnits.Text + "','" + span + "', '" + textUnits.Text + "','" + Today + "','" + valueTotalAmount.Text + "');";
+                //sqlite_cmd.CommandText = "INSERT INTO Invoice_Detail (Flat_No, Reading_Year, Reading_Month, Current_Date, Current_Unit, Last_Date, Last_Unit,Subsidy_Unit, NonSubsidy_Unit, Span,Unit, Invoice_Date, Invoice_Amount) values ('" + valueFlatNo + "','" + currentYear + "', '" + currentMonth + "', '" + valueDate + "', '" + currUnit + "', '" + prevDate + "','" + preUnit + "', '" + subUnits.Text + "', '" + nonsubUnits.Text + "','" + span + "', '" + textUnits.Text + "','" + Today + "','" + valueTotalAmount.Text + "');";
                 //Execute the query
-                sqlite_cmd.ExecuteNonQuery();
+                //sqlite_cmd.ExecuteNonQuery();
             }
             catch (Exception ex)
             {
@@ -420,49 +418,43 @@ namespace RGRAB
             {
                 // We are ready, now lets cleanup and close our connection
                 sqlite_conn.Close();
-                itemCount = rowCount;
                 print();
             }
             
         }
         private void clkGenerateInvoice_Click(object sender, EventArgs e)
         {
-            print();
+
+            //MessageBox.Show("Please use the batch receipt print option for invoice", "Information", MessageBoxButtons.OK, MessageBoxIcon.Hand);
+            IndividualPrint();
         }
         public void print()
         {
-            PrintDocument pdoc = new PrintDocument();
-            PrintDialog pd = new PrintDialog();
-            PrinterSettings ps = new PrinterSettings();
-            Font font = new Font("Courier New", 15);
+ 
+                PrintDocument pdoc = new PrintDocument();
+                PrintDialog pd = new PrintDialog();
+                PrinterSettings ps = new PrinterSettings();
 
+                pd.Document = pdoc;
+                pdoc.DefaultPageSettings.Margins.Bottom = 0;
+                pdoc.DefaultPageSettings.Margins.Left = 0;
+                pdoc.DefaultPageSettings.Margins.Right = 0;
+                pdoc.DefaultPageSettings.Margins.Top = 0;
+                pdoc.DefaultPageSettings.Landscape = true;
 
-            //PaperSize psize = new PaperSize("A4", 827, 1170);
-            //ps.DefaultPageSettings.PaperSize = psize;
+                pdoc.PrintPage += new PrintPageEventHandler(pdoc_PrintPage);
 
-            pd.Document = pdoc;
-            //pd.Document.DefaultPageSettings.PaperSize = psize;
-            //pdoc.DefaultPageSettings.PaperSize.Height = 820;
-            //pdoc.DefaultPageSettings.PaperSize.Width = 520;
-            pdoc.DefaultPageSettings.Margins.Bottom = 0;
-            pdoc.DefaultPageSettings.Margins.Left = 0;
-            pdoc.DefaultPageSettings.Margins.Right = 0;
-            pdoc.DefaultPageSettings.Margins.Top = 0;
-            pdoc.DefaultPageSettings.Landscape = true;
-
-            pdoc.PrintPage += new PrintPageEventHandler(pdoc_PrintPage);
-
-            DialogResult result = pd.ShowDialog();
-            if (result == DialogResult.OK)
-            {
-                PrintPreviewDialog pp = new PrintPreviewDialog();
-                pp.Document = pdoc;
-                result = pp.ShowDialog();
+                DialogResult result = pd.ShowDialog();
                 if (result == DialogResult.OK)
                 {
-                    pdoc.Print();
+                    //PrintPreviewDialog pp = new PrintPreviewDialog();
+                    //pp.Document = pdoc;
+                    //result = pp.ShowDialog();
+                    //if (result == DialogResult.OK)
+                    //{
+                        pdoc.Print();
+                    //}
                 }
-            }
         }
         void pdoc_PrintPage(object sender, PrintPageEventArgs e)
         {
@@ -470,11 +462,11 @@ namespace RGRAB
             string valueMonth = subBatchMonth.Text;
             string currentYear = DateTime.Now.Year.ToString();
             string underLine = "-----------------------------------------------------";
-            string seperator = "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~";
+            string seperator = "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~TEAR ALONG THIS EDGE~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~";
             String Society = "Mont Vert Seville, Wakad";
             string valueSub = "0.00";
             string valueNonSub = "0.00";
-
+            int itemCounter = 0;
 
             Graphics graphics = e.Graphics;
             Font font = new Font("Courier New", 10);
@@ -487,6 +479,7 @@ namespace RGRAB
            
             int startX = 50;
             int startX1 = 600;
+            int startZ = 0;
             int startY = 25;
             int OffsetY = 20;
             int OffsetX = 220;
@@ -494,7 +487,6 @@ namespace RGRAB
             SQLiteConnection sqlite_conn;
             SQLiteCommand sqlite_cmd;
             SQLiteDataReader sqlite_datareader;
-
 
             // create a new database connection:
             sqlite_conn = new SQLiteConnection("Data Source=GasDb.db;Version=3;New=False;Compress=True;");
@@ -519,133 +511,303 @@ namespace RGRAB
 
             // We are ready, now lets cleanup and close our connection:
             sqlite_conn.Close();
+
             FirstLoad fstLoad = new FirstLoad();
             List<Invoice_Retrieve> invoiceDetList = fstLoad.getInvoiceDetail(valueMonth, currentYear);
-            foreach (var invoiceDet in invoiceDetList) // Loop through List with for
+            Invoice_Retrieve invoiceDet;
+
+            //foreach (var invoiceDet in invoiceDetList) // Loop through List with for
+            for (int i = itemCount; i < invoiceDetList.Count; i++) // Loop through List with for
             {
-                DateTime today = DateTime.Today;
-                string Today = today.ToString("MM/dd/yyyy"); // As String
-                string flatNo = invoiceDet.FlatNo;
-                string residentName = invoiceDet.Name;
-                string subsidyStatus = invoiceDet.SubStatus;
-                string lastRdDate = invoiceDet.LastDate;
-                string currentRdDate = invoiceDet.CurrentDate;
-                string lastUnit = invoiceDet.LastUnit;
-                string currentUnit = invoiceDet.CurrentUnit;
-                string subRate = valueSub;
-                string nonSubRate = valueNonSub;
-                string subUnit = invoiceDet.SubsidyUnit;
-                string nonSubUnit = invoiceDet.NonSubsidyUnit;
-                string span = invoiceDet.Span;
-                string penalty = "0.00";
-                string units = invoiceDet.Unit;
-                string amount = invoiceDet.Amount;
-                string totalAmount = invoiceDet.Amount;
-
-                graphics.DrawString("   Mont Vert Seville CHS Gas Receipt", new Font("Courier New", 14, FontStyle.Bold), brush, startX, startY + OffsetY);
-                graphics.DrawString("   Mont Vert Seville CHS Gas Receipt", new Font("Courier New", 14, FontStyle.Bold), brush, startX1, startY + OffsetY);
-
-                OffsetY = OffsetY + 30;
-                graphics.DrawString("Date:" + Today, font, brush, startX, startY + OffsetY);
-                graphics.DrawString("Date:" + Today, font, brush, startX1, startY + OffsetY);
-
-                OffsetY = OffsetY + 10;
-                graphics.DrawString(underLine, font, brush, startX, startY + OffsetY);
-                graphics.DrawString(underLine, font, brush, startX1, startY + OffsetY);
-
-                OffsetY = OffsetY + 10;
-                graphics.DrawString("Flat No :" + flatNo, new Font("Courier New", 10, FontStyle.Bold), brush, startX, startY + OffsetY);
-                graphics.DrawString("Flat No :" + flatNo, new Font("Courier New", 10, FontStyle.Bold), brush, startX1, startY + OffsetY);
-
-                graphics.DrawString("Subsidy Status :" + subsidyStatus, new Font("Courier New", 10, FontStyle.Bold), brush, startX + OffsetX, startY + OffsetY);
-                graphics.DrawString("Subsidy Status :" + subsidyStatus, new Font("Courier New", 10, FontStyle.Bold), brush, startX1 + OffsetX, startY + OffsetY);
-
-                OffsetY = OffsetY + 15;
-                graphics.DrawString("Name :" + residentName, font, brush, startX, startY + OffsetY);
-                graphics.DrawString("Name :" + residentName, font, brush, startX1, startY + OffsetY);
-
-                OffsetY = OffsetY + 15;
-
-                graphics.DrawString(Society, font, brush, startX, startY + OffsetY);
-                graphics.DrawString(Society, font, brush, startX1, startY + OffsetY);
-
-                OffsetY = OffsetY + 10;
-                graphics.DrawString(underLine, font, brush, startX, startY + OffsetY);
-                graphics.DrawString(underLine, font, brush, startX1, startY + OffsetY);
-
-                OffsetY = OffsetY + 10;
-                graphics.DrawString("Last Rd Date :" + lastRdDate, font, brush, startX, startY + OffsetY);
-                graphics.DrawString("Last Rd Date :" + lastRdDate, font, brush, startX1, startY + OffsetY);
-
-                graphics.DrawString("Current Rd Date :" + currentRdDate, font, brush, startX + OffsetX, startY + OffsetY);
-                graphics.DrawString("Current Rd Date :" + currentRdDate, font, brush, startX1 + OffsetX, startY + OffsetY);
-
-                OffsetY = OffsetY + 15;
-                graphics.DrawString("Last Rd Unit :" + lastUnit, font, brush, startX, startY + OffsetY);
-                graphics.DrawString("Last Rd Unit :" + lastUnit, font, brush, startX1, startY + OffsetY);
-
-                graphics.DrawString("Current Rd Unit :" + currentUnit, font, brush, startX + OffsetX, startY + OffsetY);
-                graphics.DrawString("Current Rd Unit :" + currentUnit, font, brush, startX1 + OffsetX, startY + OffsetY);
-
-                OffsetY = OffsetY + 15;
-                graphics.DrawString("Subsidized Unit :" + subUnit, font, brush, startX, startY + OffsetY);
-                graphics.DrawString("Subsidized Unit :" + subUnit, font, brush, startX1, startY + OffsetY);
-
-                graphics.DrawString("Non Subsidized Unit :" + nonSubUnit, font, brush, startX + OffsetX, startY + OffsetY);
-                graphics.DrawString("Non Subsidized Unit :" + nonSubUnit, font, brush, startX1 + OffsetX, startY + OffsetY);
-
-                OffsetY = OffsetY + 15;
-                graphics.DrawString("Subsidized Rate :" + subRate, font, brush, startX, startY + OffsetY);
-                graphics.DrawString("Subsidized Rate :" + subRate, font, brush, startX1, startY + OffsetY);
-
-                graphics.DrawString("Non Subsidized Rate :" + nonSubRate, font, brush, startX + OffsetX, startY + OffsetY);
-                graphics.DrawString("Non Subsidized Rate :" + nonSubRate, font, brush, startX1 + OffsetX, startY + OffsetY);
-
-                OffsetY = OffsetY + 10;
-                graphics.DrawString(underLine, font, brush, startX, startY + OffsetY);
-                graphics.DrawString(underLine, font, brush, startX1, startY + OffsetY);
-
-                OffsetY = OffsetY + 10;
-                graphics.DrawString("Usage Days :" + span, font, brush, startX, startY + OffsetY);
-                graphics.DrawString("Usage Days :" + span, font, brush, startX1, startY + OffsetY);
-
-                graphics.DrawString("Penalty Amount :" + penalty, font, brush, startX + OffsetX, startY + OffsetY);
-                graphics.DrawString("Penalty Amount :" + penalty, font, brush, startX1 + OffsetX, startY + OffsetY);
-
-                OffsetY = OffsetY + 15;
-                graphics.DrawString("Usage Units :" + units, font, brush, startX, startY + OffsetY);
-                graphics.DrawString("Usage Units :" + units, font, brush, startX1, startY + OffsetY);
-
-                graphics.DrawString("Amount :" + amount, font, brush, startX + OffsetX, startY + OffsetY);
-                graphics.DrawString("Amount :" + amount, font, brush, startX1 + OffsetX, startY + OffsetY);
-
-                OffsetY = OffsetY + 20;
-                graphics.DrawString("Total Amount :" + totalAmount, new Font("Courier New", 11, FontStyle.Bold), brush, startX + OffsetX, startY + OffsetY);
-                graphics.DrawString("Total Amount :" + totalAmount, new Font("Courier New", 11, FontStyle.Bold), brush, startX1 + OffsetX, startY + OffsetY);
-
-                OffsetY = OffsetY + 10;
-                graphics.DrawString(underLine, font, brush, startX, startY + OffsetY);
-                graphics.DrawString(underLine, font, brush, startX1, startY + OffsetY);
-
-                OffsetY = OffsetY + 20;
-                graphics.DrawString(seperator, font, brush, startX, startY + OffsetY);
-                graphics.DrawString(seperator, font, brush, startX1, startY + OffsetY);
-
-                OffsetY = OffsetY + 20;
-
-                if (OffsetY >= pageHeight)
+                //foreach (var invoiceDet in invoiceDetList) // Loop through List with for
+                if (itemCount < invoiceDetList.Count)
                 {
-                    e.HasMorePages = true;
-                    OffsetY = 0;
-                    return;
-                }
-                else
-                {
-                    e.HasMorePages = false;
-                }
+                    invoiceDet = invoiceDetList[i];
+                    DateTime today = DateTime.Today;
+                    string Today = today.ToString("MM/dd/yyyy"); // As String
+                    string flatNo = invoiceDet.FlatNo;
+                    string residentName = invoiceDet.Name;
+                    string subsidyStatus = invoiceDet.SubStatus;
+                    string lastRdDate = invoiceDet.LastDate;
+                    string currentRdDate = invoiceDet.CurrentDate;
+                    string lastUnit = invoiceDet.LastUnit;
+                    string currentUnit = invoiceDet.CurrentUnit;
+                    string subRate = valueSub;
+                    string nonSubRate = valueNonSub;
+                    string subUnit = invoiceDet.SubsidyUnit;
+                    string nonSubUnit = invoiceDet.NonSubsidyUnit;
+                    string span = invoiceDet.Span;
+                    string penalty = "0.00";
+                    string units = invoiceDet.Unit;
+                    string amount = invoiceDet.Amount;
+                    string totalAmount = invoiceDet.Amount;
 
-                }  
+                    graphics.DrawString("   Mont Vert Seville CHS Gas Receipt", new Font("Courier New", 14, FontStyle.Bold), brush, startX, startY + OffsetY);
+                    graphics.DrawString("   Mont Vert Seville CHS Gas Receipt", new Font("Courier New", 14, FontStyle.Bold), brush, startX1, startY + OffsetY);
+
+                    OffsetY = OffsetY + 30;
+                    graphics.DrawString("Date:" + Today, font, brush, startX, startY + OffsetY);
+                    graphics.DrawString("Date:" + Today, font, brush, startX1, startY + OffsetY);
+
+                    OffsetY = OffsetY + 10;
+                    graphics.DrawString(underLine, font, brush, startX, startY + OffsetY);
+                    graphics.DrawString(underLine, font, brush, startX1, startY + OffsetY);
+
+                    OffsetY = OffsetY + 10;
+                    graphics.DrawString("Flat No :" + flatNo, new Font("Courier New", 10, FontStyle.Bold), brush, startX, startY + OffsetY);
+                    graphics.DrawString("Flat No :" + flatNo, new Font("Courier New", 10, FontStyle.Bold), brush, startX1, startY + OffsetY);
+
+                    graphics.DrawString("Subsidy Status :" + subsidyStatus, new Font("Courier New", 10, FontStyle.Bold), brush, startX + OffsetX, startY + OffsetY);
+                    graphics.DrawString("Subsidy Status :" + subsidyStatus, new Font("Courier New", 10, FontStyle.Bold), brush, startX1 + OffsetX, startY + OffsetY);
+
+                    OffsetY = OffsetY + 15;
+                    graphics.DrawString("Name :" + residentName, font, brush, startX, startY + OffsetY);
+                    graphics.DrawString("Name :" + residentName, font, brush, startX1, startY + OffsetY);
+
+                    OffsetY = OffsetY + 15;
+
+                    graphics.DrawString(Society, font, brush, startX, startY + OffsetY);
+                    graphics.DrawString(Society, font, brush, startX1, startY + OffsetY);
+
+                    OffsetY = OffsetY + 10;
+                    graphics.DrawString(underLine, font, brush, startX, startY + OffsetY);
+                    graphics.DrawString(underLine, font, brush, startX1, startY + OffsetY);
+
+                    OffsetY = OffsetY + 10;
+                    graphics.DrawString("Last Rd Date :" + lastRdDate, font, brush, startX, startY + OffsetY);
+                    graphics.DrawString("Last Rd Date :" + lastRdDate, font, brush, startX1, startY + OffsetY);
+
+                    graphics.DrawString("Current Rd Date :" + currentRdDate, font, brush, startX + OffsetX, startY + OffsetY);
+                    graphics.DrawString("Current Rd Date :" + currentRdDate, font, brush, startX1 + OffsetX, startY + OffsetY);
+
+                    OffsetY = OffsetY + 15;
+                    graphics.DrawString("Last Rd Unit :" + lastUnit, font, brush, startX, startY + OffsetY);
+                    graphics.DrawString("Last Rd Unit :" + lastUnit, font, brush, startX1, startY + OffsetY);
+
+                    graphics.DrawString("Current Rd Unit :" + currentUnit, font, brush, startX + OffsetX, startY + OffsetY);
+                    graphics.DrawString("Current Rd Unit :" + currentUnit, font, brush, startX1 + OffsetX, startY + OffsetY);
+
+                    OffsetY = OffsetY + 15;
+                    graphics.DrawString("Subsidized Unit :" + subUnit, font, brush, startX, startY + OffsetY);
+                    graphics.DrawString("Subsidized Unit :" + subUnit, font, brush, startX1, startY + OffsetY);
+
+                    graphics.DrawString("Non Subsidized Unit :" + nonSubUnit, font, brush, startX + OffsetX, startY + OffsetY);
+                    graphics.DrawString("Non Subsidized Unit :" + nonSubUnit, font, brush, startX1 + OffsetX, startY + OffsetY);
+
+                    OffsetY = OffsetY + 15;
+                    graphics.DrawString("Subsidized Rate :" + subRate, font, brush, startX, startY + OffsetY);
+                    graphics.DrawString("Subsidized Rate :" + subRate, font, brush, startX1, startY + OffsetY);
+
+                    graphics.DrawString("Non Subsidized Rate :" + nonSubRate, font, brush, startX + OffsetX, startY + OffsetY);
+                    graphics.DrawString("Non Subsidized Rate :" + nonSubRate, font, brush, startX1 + OffsetX, startY + OffsetY);
+
+                    OffsetY = OffsetY + 10;
+                    graphics.DrawString(underLine, font, brush, startX, startY + OffsetY);
+                    graphics.DrawString(underLine, font, brush, startX1, startY + OffsetY);
+
+                    OffsetY = OffsetY + 10;
+                    graphics.DrawString("Usage Days :" + span, font, brush, startX, startY + OffsetY);
+                    graphics.DrawString("Usage Days :" + span, font, brush, startX1, startY + OffsetY);
+
+                    graphics.DrawString("Penalty Amount :" + penalty, font, brush, startX + OffsetX, startY + OffsetY);
+                    graphics.DrawString("Penalty Amount :" + penalty, font, brush, startX1 + OffsetX, startY + OffsetY);
+
+                    OffsetY = OffsetY + 15;
+                    graphics.DrawString("Usage Units :" + units, font, brush, startX, startY + OffsetY);
+                    graphics.DrawString("Usage Units :" + units, font, brush, startX1, startY + OffsetY);
+
+                    graphics.DrawString("Amount :" + amount, font, brush, startX + OffsetX, startY + OffsetY);
+                    graphics.DrawString("Amount :" + amount, font, brush, startX1 + OffsetX, startY + OffsetY);
+
+                    OffsetY = OffsetY + 20;
+                    graphics.DrawString("Total Amount :" + totalAmount, new Font("Courier New", 11, FontStyle.Bold), brush, startX + OffsetX, startY + OffsetY);
+                    graphics.DrawString("Total Amount :" + totalAmount, new Font("Courier New", 11, FontStyle.Bold), brush, startX1 + OffsetX, startY + OffsetY);
+
+                    OffsetY = OffsetY + 10;
+                    graphics.DrawString(underLine, font, brush, startX, startY + OffsetY);
+                    graphics.DrawString(underLine, font, brush, startX1, startY + OffsetY);
+
+                    OffsetY = OffsetY + 20;
+                    graphics.DrawString(seperator, font, brush, startZ, startY + OffsetY);
+
+                    OffsetY = OffsetY + 20;
+                    itemCounter++;
+                    itemCount++;
+
+                    if ((itemCounter == 3) && (itemCount < invoiceDetList.Count))
+                    {
+                        e.HasMorePages = true;
+                        return;
+                    }
+                    else
+                    {
+                        e.HasMorePages = false;
+                    }
+
+                }
+            }
         }
+        public void IndividualPrint()
+        {
+
+            PrintDocument pindividualdoc = new PrintDocument();
+            PrintDialog pd = new PrintDialog();
+            PrinterSettings ps = new PrinterSettings();
+
+            pd.Document = pindividualdoc;
+            pindividualdoc.DefaultPageSettings.Margins.Bottom = 0;
+            pindividualdoc.DefaultPageSettings.Margins.Left = 0;
+            pindividualdoc.DefaultPageSettings.Margins.Right = 0;
+            pindividualdoc.DefaultPageSettings.Margins.Top = 0;
+            pindividualdoc.DefaultPageSettings.Landscape = true;
+
+            pindividualdoc.PrintPage += new PrintPageEventHandler(pindividualdoc_PrintPage);
+
+            DialogResult result = pd.ShowDialog();
+            if (result == DialogResult.OK)
+            {
+                PrintPreviewDialog pp = new PrintPreviewDialog();
+                pp.Document = pindividualdoc;
+                result = pp.ShowDialog();
+                if (result == DialogResult.OK)
+                {
+                pindividualdoc.Print();
+                }
+            }
+        }
+
+
+        void pindividualdoc_PrintPage(object sender, PrintPageEventArgs e)
+        {
+
+            string underLine = "-----------------------------------------------------";
+            string seperator = "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~TEAR ALONG THIS EDGE~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~";
+            String Society = "Mont Vert Seville, Wakad";
+            DateTime today = DateTime.Today;
+            string Today = today.ToString("MM/dd/yyyy"); // As String
+            string flatNo = selFlatNo.Text;
+            string residentName = currentResident.Text;
+            string subsidyStatus = subStatus.Text;
+            string lastRdDate = lastRD.Text;
+            string currentRdDate = currentRD.Text;
+            string lastUnits = lastUnit.Text;
+            string currentUnits = currentUnit.Text;
+            string subRate = textSubsidyRate.Text;
+            string nonSubRate = textNonSubsidyRate.Text;
+            string subUnit = subUnits.Text;
+            string nonSubUnit = nonsubUnits.Text;
+            string span = textUsage.Text;
+            string penalty = penaltyText.Text;
+            string units = textUnits.Text;
+            string amount = valueAmount.Text;
+            string totalAmount = valueTotalAmount.Text;
+
+            Graphics graphics = e.Graphics;
+            Font font = new Font("Courier New", 10);
+            SolidBrush brush = new SolidBrush(Color.Black);
+            e.PageSettings.PaperSize = new PaperSize("A4", 850, 1100);
+            float pageWidth = e.PageSettings.PrintableArea.Width;
+            float pageHeight = e.PageSettings.PrintableArea.Height;
+
+            int startX = 50;
+            int startX1 = 600;
+            int startZ = 0;
+            int startY = 25;
+            int OffsetY = 20;
+            int OffsetX = 220;
+
+            graphics.DrawString("   Mont Vert Seville CHS Gas Receipt", new Font("Courier New", 14, FontStyle.Bold), brush, startX, startY + OffsetY);
+            graphics.DrawString("   Mont Vert Seville CHS Gas Receipt", new Font("Courier New", 14, FontStyle.Bold), brush, startX1, startY + OffsetY);
+
+            OffsetY = OffsetY + 30;
+            graphics.DrawString("Date:" + Today, font, brush, startX, startY + OffsetY);
+            graphics.DrawString("Date:" + Today, font, brush, startX1, startY + OffsetY);
+
+            OffsetY = OffsetY + 10;
+            graphics.DrawString(underLine, font, brush, startX, startY + OffsetY);
+            graphics.DrawString(underLine, font, brush, startX1, startY + OffsetY);
+
+            OffsetY = OffsetY + 10;
+            graphics.DrawString("Flat No :" + flatNo, new Font("Courier New", 10, FontStyle.Bold), brush, startX, startY + OffsetY);
+            graphics.DrawString("Flat No :" + flatNo, new Font("Courier New", 10, FontStyle.Bold), brush, startX1, startY + OffsetY);
+
+            graphics.DrawString("Subsidy Status :" + subsidyStatus, new Font("Courier New", 10, FontStyle.Bold), brush, startX + OffsetX, startY + OffsetY);
+            graphics.DrawString("Subsidy Status :" + subsidyStatus, new Font("Courier New", 10, FontStyle.Bold), brush, startX1 + OffsetX, startY + OffsetY);
+
+            OffsetY = OffsetY + 15;
+            graphics.DrawString("Name :" + residentName, font, brush, startX, startY + OffsetY);
+            graphics.DrawString("Name :" + residentName, font, brush, startX1, startY + OffsetY);
+
+            OffsetY = OffsetY + 15;
+
+            graphics.DrawString(Society, font, brush, startX, startY + OffsetY);
+            graphics.DrawString(Society, font, brush, startX1, startY + OffsetY);
+
+            OffsetY = OffsetY + 10;
+            graphics.DrawString(underLine, font, brush, startX, startY + OffsetY);
+            graphics.DrawString(underLine, font, brush, startX1, startY + OffsetY);
+
+            OffsetY = OffsetY + 10;
+            graphics.DrawString("Last Rd Date :" + lastRdDate, font, brush, startX, startY + OffsetY);
+            graphics.DrawString("Last Rd Date :" + lastRdDate, font, brush, startX1, startY + OffsetY);
+
+            graphics.DrawString("Current Rd Date :" + currentRdDate, font, brush, startX + OffsetX, startY + OffsetY);
+            graphics.DrawString("Current Rd Date :" + currentRdDate, font, brush, startX1 + OffsetX, startY + OffsetY);
+
+            OffsetY = OffsetY + 15;
+            graphics.DrawString("Last Rd Unit :" + lastUnits, font, brush, startX, startY + OffsetY);
+            graphics.DrawString("Last Rd Unit :" + lastUnits, font, brush, startX1, startY + OffsetY);
+
+            graphics.DrawString("Current Rd Unit :" + currentUnits, font, brush, startX + OffsetX, startY + OffsetY);
+            graphics.DrawString("Current Rd Unit :" + currentUnits, font, brush, startX1 + OffsetX, startY + OffsetY);
+
+            OffsetY = OffsetY + 15;
+            graphics.DrawString("Subsidized Unit :" + subUnit, font, brush, startX, startY + OffsetY);
+            graphics.DrawString("Subsidized Unit :" + subUnit, font, brush, startX1, startY + OffsetY);
+
+            graphics.DrawString("Non Subsidized Unit :" + nonSubUnit, font, brush, startX + OffsetX, startY + OffsetY);
+            graphics.DrawString("Non Subsidized Unit :" + nonSubUnit, font, brush, startX1 + OffsetX, startY + OffsetY);
+
+            OffsetY = OffsetY + 15;
+            graphics.DrawString("Subsidized Rate :" + subRate, font, brush, startX, startY + OffsetY);
+            graphics.DrawString("Subsidized Rate :" + subRate, font, brush, startX1, startY + OffsetY);
+
+            graphics.DrawString("Non Subsidized Rate :" + nonSubRate, font, brush, startX + OffsetX, startY + OffsetY);
+            graphics.DrawString("Non Subsidized Rate :" + nonSubRate, font, brush, startX1 + OffsetX, startY + OffsetY);
+
+            OffsetY = OffsetY + 10;
+            graphics.DrawString(underLine, font, brush, startX, startY + OffsetY);
+            graphics.DrawString(underLine, font, brush, startX1, startY + OffsetY);
+
+            OffsetY = OffsetY + 10;
+            graphics.DrawString("Usage Days :" + span, font, brush, startX, startY + OffsetY);
+            graphics.DrawString("Usage Days :" + span, font, brush, startX1, startY + OffsetY);
+
+            graphics.DrawString("Penalty Amount :" + penalty, font, brush, startX + OffsetX, startY + OffsetY);
+            graphics.DrawString("Penalty Amount :" + penalty, font, brush, startX1 + OffsetX, startY + OffsetY);
+
+            OffsetY = OffsetY + 15;
+            graphics.DrawString("Usage Units :" + units, font, brush, startX, startY + OffsetY);
+            graphics.DrawString("Usage Units :" + units, font, brush, startX1, startY + OffsetY);
+
+            graphics.DrawString("Amount :" + amount, font, brush, startX + OffsetX, startY + OffsetY);
+            graphics.DrawString("Amount :" + amount, font, brush, startX1 + OffsetX, startY + OffsetY);
+
+            OffsetY = OffsetY + 20;
+            graphics.DrawString("Total Amount :" + totalAmount, new Font("Courier New", 11, FontStyle.Bold), brush, startX + OffsetX, startY + OffsetY);
+            graphics.DrawString("Total Amount :" + totalAmount, new Font("Courier New", 11, FontStyle.Bold), brush, startX1 + OffsetX, startY + OffsetY);
+
+            OffsetY = OffsetY + 10;
+            graphics.DrawString(underLine, font, brush, startX, startY + OffsetY);
+            graphics.DrawString(underLine, font, brush, startX1, startY + OffsetY);
+
+            OffsetY = OffsetY + 20;
+            graphics.DrawString(seperator, font, brush, startZ, startY + OffsetY);
+
+            OffsetY = OffsetY + 20;
+            
+        }
+
 
         private void clkReset_Click(object sender, EventArgs e)
         {
@@ -667,6 +829,11 @@ namespace RGRAB
             textUnits.Text = "";
             valueAmount.Text = "";
             valueTotalAmount.Text = "";
+        }
+
+        private void textUsage_TextChanged(object sender, EventArgs e)
+        {
+
         }
     }
 }

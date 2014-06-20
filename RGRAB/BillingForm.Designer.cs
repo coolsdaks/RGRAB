@@ -408,6 +408,7 @@
             this.textUsage.Name = "textUsage";
             this.textUsage.Size = new System.Drawing.Size(64, 20);
             this.textUsage.TabIndex = 28;
+            this.textUsage.TextChanged += new System.EventHandler(this.textUsage_TextChanged);
             // 
             // label11
             // 
