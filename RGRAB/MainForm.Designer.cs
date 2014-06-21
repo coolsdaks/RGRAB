@@ -28,27 +28,27 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.button1 = new System.Windows.Forms.Button();
+            this.btnInput = new System.Windows.Forms.Button();
             this.btnBilling = new System.Windows.Forms.Button();
-            this.button3 = new System.Windows.Forms.Button();
-            this.button4 = new System.Windows.Forms.Button();
-            this.button5 = new System.Windows.Forms.Button();
+            this.btnOptions = new System.Windows.Forms.Button();
+            this.btnReport = new System.Windows.Forms.Button();
+            this.btnDatabase = new System.Windows.Forms.Button();
             this.btnUpdate = new System.Windows.Forms.Button();
             this.label1 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
             this.clkCloseMain = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
-            // button1
+            // btnInput
             // 
-            this.button1.Font = new System.Drawing.Font("Modern No. 20", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.button1.Location = new System.Drawing.Point(24, 92);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(163, 39);
-            this.button1.TabIndex = 0;
-            this.button1.Text = "Input Module";
-            this.button1.UseVisualStyleBackColor = true;
-            this.button1.Click += new System.EventHandler(this.button1_Click);
+            this.btnInput.Font = new System.Drawing.Font("Modern No. 20", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnInput.Location = new System.Drawing.Point(24, 92);
+            this.btnInput.Name = "btnInput";
+            this.btnInput.Size = new System.Drawing.Size(163, 39);
+            this.btnInput.TabIndex = 0;
+            this.btnInput.Text = "Input Module";
+            this.btnInput.UseVisualStyleBackColor = true;
+            this.btnInput.Click += new System.EventHandler(this.btnInput_Click);
             // 
             // btnBilling
             // 
@@ -61,37 +61,38 @@
             this.btnBilling.UseVisualStyleBackColor = true;
             this.btnBilling.Click += new System.EventHandler(this.btnBilling_Click);
             // 
-            // button3
+            // btnOptions
             // 
-            this.button3.Font = new System.Drawing.Font("Modern No. 20", 14.25F);
-            this.button3.Location = new System.Drawing.Point(226, 164);
-            this.button3.Name = "button3";
-            this.button3.Size = new System.Drawing.Size(163, 39);
-            this.button3.TabIndex = 2;
-            this.button3.Text = "Options Module";
-            this.button3.UseVisualStyleBackColor = true;
-            this.button3.Click += new System.EventHandler(this.button3_Click);
+            this.btnOptions.Font = new System.Drawing.Font("Modern No. 20", 14.25F);
+            this.btnOptions.Location = new System.Drawing.Point(226, 164);
+            this.btnOptions.Name = "btnOptions";
+            this.btnOptions.Size = new System.Drawing.Size(163, 39);
+            this.btnOptions.TabIndex = 2;
+            this.btnOptions.Text = "Options Module";
+            this.btnOptions.UseVisualStyleBackColor = true;
+            this.btnOptions.Click += new System.EventHandler(this.btnOptions_Click);
             // 
-            // button4
+            // btnReport
             // 
-            this.button4.Font = new System.Drawing.Font("Modern No. 20", 14.25F);
-            this.button4.Location = new System.Drawing.Point(24, 164);
-            this.button4.Name = "button4";
-            this.button4.Size = new System.Drawing.Size(163, 39);
-            this.button4.TabIndex = 3;
-            this.button4.Text = "Reporting Module";
-            this.button4.UseVisualStyleBackColor = true;
+            this.btnReport.Font = new System.Drawing.Font("Modern No. 20", 14.25F);
+            this.btnReport.Location = new System.Drawing.Point(24, 164);
+            this.btnReport.Name = "btnReport";
+            this.btnReport.Size = new System.Drawing.Size(163, 39);
+            this.btnReport.TabIndex = 3;
+            this.btnReport.Text = "Reporting Module";
+            this.btnReport.UseVisualStyleBackColor = true;
+            this.btnReport.Click += new System.EventHandler(this.btnReport_Click);
             // 
-            // button5
+            // btnDatabase
             // 
-            this.button5.Font = new System.Drawing.Font("Modern No. 20", 14.25F);
-            this.button5.Location = new System.Drawing.Point(24, 236);
-            this.button5.Name = "button5";
-            this.button5.Size = new System.Drawing.Size(163, 39);
-            this.button5.TabIndex = 4;
-            this.button5.Text = "Database Module";
-            this.button5.UseVisualStyleBackColor = true;
-            this.button5.Click += new System.EventHandler(this.button5_Click);
+            this.btnDatabase.Font = new System.Drawing.Font("Modern No. 20", 14.25F);
+            this.btnDatabase.Location = new System.Drawing.Point(24, 236);
+            this.btnDatabase.Name = "btnDatabase";
+            this.btnDatabase.Size = new System.Drawing.Size(163, 39);
+            this.btnDatabase.TabIndex = 4;
+            this.btnDatabase.Text = "Database Module";
+            this.btnDatabase.UseVisualStyleBackColor = true;
+            this.btnDatabase.Click += new System.EventHandler(this.btnDatabase_Click);
             // 
             // btnUpdate
             // 
@@ -147,11 +148,11 @@
             this.Controls.Add(this.label2);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.btnUpdate);
-            this.Controls.Add(this.button5);
-            this.Controls.Add(this.button4);
-            this.Controls.Add(this.button3);
+            this.Controls.Add(this.btnDatabase);
+            this.Controls.Add(this.btnReport);
+            this.Controls.Add(this.btnOptions);
             this.Controls.Add(this.btnBilling);
-            this.Controls.Add(this.button1);
+            this.Controls.Add(this.btnInput);
             this.Name = "MainForm";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Main Module";
@@ -162,11 +163,11 @@
 
         #endregion
 
-        private System.Windows.Forms.Button button1;
+        private System.Windows.Forms.Button btnInput;
         private System.Windows.Forms.Button btnBilling;
-        private System.Windows.Forms.Button button3;
-        private System.Windows.Forms.Button button4;
-        private System.Windows.Forms.Button button5;
+        private System.Windows.Forms.Button btnOptions;
+        private System.Windows.Forms.Button btnReport;
+        private System.Windows.Forms.Button btnDatabase;
         private System.Windows.Forms.Button btnUpdate;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Label label2;

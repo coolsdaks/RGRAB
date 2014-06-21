@@ -424,8 +424,7 @@ namespace RGRAB
         }
         private void clkGenerateInvoice_Click(object sender, EventArgs e)
         {
-
-            //MessageBox.Show("Please use the batch receipt print option for invoice", "Information", MessageBoxButtons.OK, MessageBoxIcon.Hand);
+            //Calls the logic to print the individual invoice
             IndividualPrint();
         }
         public void print()
@@ -516,10 +515,8 @@ namespace RGRAB
             List<Invoice_Retrieve> invoiceDetList = fstLoad.getInvoiceDetail(valueMonth, currentYear);
             Invoice_Retrieve invoiceDet;
 
-            //foreach (var invoiceDet in invoiceDetList) // Loop through List with for
             for (int i = itemCount; i < invoiceDetList.Count; i++) // Loop through List with for
             {
-                //foreach (var invoiceDet in invoiceDetList) // Loop through List with for
                 if (itemCount < invoiceDetList.Count)
                 {
                     invoiceDet = invoiceDetList[i];
@@ -647,6 +644,8 @@ namespace RGRAB
                 }
             }
         }
+
+
         public void IndividualPrint()
         {
 
@@ -684,7 +683,7 @@ namespace RGRAB
             string seperator = "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~TEAR ALONG THIS EDGE~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~";
             String Society = "Mont Vert Seville, Wakad";
             DateTime today = DateTime.Today;
-            string Today = today.ToString("MM/dd/yyyy"); // As String
+            string Today = today.ToString("MM/dd/yyyy");
             string flatNo = selFlatNo.Text;
             string residentName = currentResident.Text;
             string subsidyStatus = subStatus.Text;

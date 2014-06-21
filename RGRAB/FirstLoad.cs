@@ -109,5 +109,88 @@ namespace RGRAB
             return (invoiceRetList);
 
         }
+
+
+        public List<ConsumptionDetail> getConsumption()
+        {
+            
+            double usage = 0.00;
+            string valueMonth = "";
+            DateTime tempYear;
+            string calcYear = "";
+
+            SQLiteConnection sqlite_conn;
+            SQLiteCommand sqlite_cmd;
+            SQLiteDataReader sqlite_datareader;
+            List<ConsumptionDetail> consumptionList = new List<ConsumptionDetail>();
+            
+                // create a new database connection:
+                sqlite_conn = new SQLiteConnection("Data Source=GasDb.db;Version=3;New=False;Compress=True;");
+                try
+                {
+                // open the connection:
+                sqlite_conn.Open();
+
+                // create a new SQL command:
+                sqlite_cmd = sqlite_conn.CreateCommand();
+
+                // First lets build a SQL-Query again:
+                sqlite_cmd.CommandText = "Select rd.Flat_No, rd.Name, rd.Total_Units, gr.Reading_Month,gr.Reading_Year from Resident_Detail rd, Gas_Reading gr where rd.Flat_No = gr.Flat_No and rd.Total_units = gr.Reading_Unit;";
+
+                // Now the SQLiteCommand object can give us a DataReader-Object:
+                sqlite_datareader = sqlite_cmd.ExecuteReader();
+
+                ConsumptionDetail consump = null;
+
+                // The SQLiteDataReader allows us to run through the result lines:
+                while (sqlite_datareader.Read()) // Read() returns true if there is still a result line to read
+                {
+                    //Move the values to the corresponding fields
+                    consump = new ConsumptionDetail();
+                    string valueFlatNo = consump.FlatNo = sqlite_datareader.GetString(0);
+                    consump.Name = sqlite_datareader.GetString(1);
+                    usage = Convert.ToDouble(sqlite_datareader.GetString(2));
+                    valueMonth = sqlite_datareader.GetString(3);
+                    string valYear = sqlite_datareader.GetString(4);
+
+                    int valMonth = Convert.ToDateTime("01-" + valueMonth + "-2011").Month; 
+
+
+                    if ((valMonth >= 1) && (valMonth <= 3))
+                    {
+                        tempYear = DateTime.Today.AddYears(-1);
+                        calcYear = tempYear.Year.ToString();
+                    }
+                    else if ((valMonth >= 4) && (valMonth <= 12))
+                    {
+                        calcYear = DateTime.Now.Year.ToString();
+                    }
+
+                    double baseUnit = Convert.ToDouble(RetrieveData.getReading(valueFlatNo, calcYear, "March"));
+                    double currentUnit = Convert.ToDouble(RetrieveData.getReading(valueFlatNo, valYear, valueMonth));
+
+                    double diffUnit = RetrieveData.calcConsumedUnit(baseUnit, currentUnit);
+
+                    double tempUnit = Math.Round(((diffUnit * 2.6) / 14),0);
+
+                    string totalConsumption = consump.Consumption = Convert.ToString(tempUnit);
+
+                    consumptionList.Add(consump);
+
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+            finally
+            {
+                // We are ready, now lets cleanup and close our connection:
+                sqlite_conn.Close();
+            }
+
+                return (consumptionList);
+
+        }
   }
 }

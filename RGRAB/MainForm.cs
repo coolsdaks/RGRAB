@@ -18,10 +18,10 @@ namespace RGRAB
             InitializeComponent();
         }
 
-        private void button3_Click(object sender, EventArgs e)
+        private void btnOptions_Click(object sender, EventArgs e)
          {
-            Security passform = new Security();
-            passform.Show(this);
+            Security passForm = new Security();
+            passForm.Show();
         }
 
         private void btnUpdate_Click(object sender, EventArgs e)
@@ -31,8 +31,10 @@ namespace RGRAB
             SQLiteCommand sqlite_cmd;
             SQLiteCommand sqlite_cmd1;
             SQLiteDataReader sqlite_datareader;
+            //SQLiteDataReader sqlite_datareader1;
             DateTime tempYear;
             string calcYear = "";
+            //string valueMonth = "";
 
             // create a new database connection:
             sqlite_conn = new SQLiteConnection("Data Source=GasDb.db;Version=3;New=False;Compress=True;");
@@ -48,8 +50,7 @@ namespace RGRAB
             {
                 Cursor.Current = Cursors.WaitCursor;
                 // Let the SQLiteCommand object know our SQL-Query:
-                //sqlite_cmd.CommandText = "Select Distinct(Flat_No) from Resident_Detail;";
-                sqlite_cmd.CommandText = "SELECT max(Reading_Unit), Flat_No from Gas_Reading GROUP BY Flat_No ORDER BY Flat_No;";
+                sqlite_cmd.CommandText = "SELECT gr.Flat_No,gr.Reading_Unit, gr.Reading_Month from Gas_reading gr INNER JOIN (SELECT max(Reading_Unit) as maxunit, Flat_No from Gas_Reading GROUP BY Flat_No) tgr on gr.Flat_No = tgr.Flat_No and gr.Reading_Unit = tgr.maxunit GROUP BY gr.Flat_No";
 
                 // Now the SQLiteCommand object can give us a DataReader-Object:
                 sqlite_datareader = sqlite_cmd.ExecuteReader();
@@ -58,10 +59,10 @@ namespace RGRAB
                 while (sqlite_datareader.Read()) // Read() returns true if there is still a result line to read
                 {
 
-                    string valueUnit = sqlite_datareader.GetString(0);
-                    string valueFlatNo = sqlite_datareader.GetString(1);
-
-
+                    string valueFlatNo = sqlite_datareader.GetString(0);
+                    string valueUnit = sqlite_datareader.GetString(1);
+                    string valueMonth = sqlite_datareader.GetString(2);
+                    
                     // Let the SQLiteCommand object know our SQL-Query:
                     sqlite_cmd1.CommandText = "UPDATE Resident_Detail SET Total_Units = '" + valueUnit + "' where Flat_No  = '" + valueFlatNo + "';";
 
@@ -69,8 +70,7 @@ namespace RGRAB
                     sqlite_cmd1.ExecuteNonQuery();
 
                     //Code to decide the subsidy status of the resident
-                    int valMonth = DateTime.Today.Month;
-                    //int tempMonth = Convert.ToInt32(valMonth);
+                    int valMonth = Convert.ToDateTime("01-" + valueMonth + "-2011").Month; 
                     string currentMonth = RetrieveData.getMonth(valMonth);
                     string valYear = DateTime.Now.Year.ToString();
 
@@ -86,7 +86,7 @@ namespace RGRAB
                     }
 
                     double baseUnit = Convert.ToDouble(RetrieveData.getReading(valueFlatNo, calcYear, "March"));
-                    double currentUnit = Convert.ToDouble(RetrieveData.getReading(valueFlatNo, valYear, currentMonth));
+                    double currentUnit = Convert.ToDouble(RetrieveData.getReading(valueFlatNo, valYear, valueMonth));
 
                     double diffUnit = RetrieveData.calcConsumedUnit(baseUnit, currentUnit);
                     if (diffUnit > 64)
@@ -113,27 +113,33 @@ namespace RGRAB
             }
         }
 
-        private void button5_Click(object sender, EventArgs e)
+        private void btnDatabase_Click(object sender, EventArgs e)
         {
-            Security passform = new Security();
-            passform.Show(this);
+            Security passForm = new Security();
+            passForm.Show();
         }
 
-        private void button1_Click(object sender, EventArgs e)
+        private void btnInput_Click(object sender, EventArgs e)
         {
-            DataInput form1 = new DataInput();
-            form1.Show();
+            DataInput dataForm = new DataInput();
+            dataForm.Show();
         }
 
         private void btnBilling_Click(object sender, EventArgs e)
         {
-            BillingForm form4 = new BillingForm();
-            form4.Show();
+            BillingForm billForm = new BillingForm();
+            billForm.Show();
         }
 
         private void clkCloseMain_Click(object sender, EventArgs e)
         {
             this.Close();
+        }
+
+        private void btnReport_Click(object sender, EventArgs e)
+        {
+            ReportForm reportForm = new ReportForm();
+            reportForm.Show();
         }
     }
 }
