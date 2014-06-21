@@ -192,5 +192,57 @@ namespace RGRAB
                 return (consumptionList);
 
         }
+
+        public List<DefaulterDetail> getDefaulter(string tempMonth)
+        {
+            SQLiteConnection sqlite_conn;
+            SQLiteCommand sqlite_cmd;
+            SQLiteDataReader sqlite_datareader;
+            List<DefaulterDetail> defaulterList = new List<DefaulterDetail>();
+
+            // create a new database connection:
+            sqlite_conn = new SQLiteConnection("Data Source=GasDb.db;Version=3;New=False;Compress=True;");
+            try
+            {
+                // open the connection:
+                sqlite_conn.Open();
+
+                // create a new SQL command:
+                sqlite_cmd = sqlite_conn.CreateCommand();
+
+                // First lets build a SQL-Query again:
+                sqlite_cmd.CommandText = "SELECT id.Flat_No, rd.Name, id.Invoice_Amount from Invoice_detail id, Resident_Detail rd where id.Reading_Month = '" + tempMonth + "' and id.Paid_Amount is null and id.Flat_No =  rd.Flat_No";
+
+                // Now the SQLiteCommand object can give us a DataReader-Object:
+                sqlite_datareader = sqlite_cmd.ExecuteReader();
+
+                DefaulterDetail defaulter = null;
+
+                // The SQLiteDataReader allows us to run through the result lines:
+                while (sqlite_datareader.Read()) // Read() returns true if there is still a result line to read
+                {
+                    //Move the values to the corresponding fields
+                    defaulter = new DefaulterDetail();
+                    defaulter.FlatNo = sqlite_datareader.GetString(0);
+                    defaulter.Name = sqlite_datareader.GetString(1);
+                    defaulter.Amount = sqlite_datareader.GetString(2);
+
+                    defaulterList.Add(defaulter);
+
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+            finally
+            {
+                // We are ready, now lets cleanup and close our connection:
+                sqlite_conn.Close();
+            }
+
+            return (defaulterList);
+
+        }
   }
 }

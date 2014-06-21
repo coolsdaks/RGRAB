@@ -90,6 +90,7 @@
       <DependentUpon>BillingForm.cs</DependentUpon>
     </Compile>
     <Compile Include="Consumption.cs" />
+    <Compile Include="Defaulter.cs" />
     <Compile Include="DataInput.cs">
       <SubType>Form</SubType>
     </Compile>

@@ -136,7 +136,13 @@ namespace RGRAB
 
         private void rptDefaulterReport_Click(object sender, EventArgs e)
         {
-            DefaulterReportForm defaultForm = new DefaulterReportForm();
+            string valMonth = defaultMonth.Text;
+            if (valMonth == "")
+            {
+                MessageBox.Show("Please select the month for generating defaulter report");
+                return;
+            }
+            DefaulterReportForm defaultForm = new DefaulterReportForm(valMonth);
             defaultForm.Show();
         }
     }

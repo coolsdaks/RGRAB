@@ -161,7 +161,7 @@
         private System.Windows.Forms.GroupBox groupBox2;
         private System.Windows.Forms.GroupBox groupBox3;
         private System.Windows.Forms.Button btnClose;
-        public System.Windows.Forms.ComboBox defaultMonth;
+        private System.Windows.Forms.ComboBox defaultMonth;
         private System.Windows.Forms.Label label6;
         private System.Windows.Forms.Button rptDefaulterReport;
         private System.Windows.Forms.Button rptConsumptionReport;
