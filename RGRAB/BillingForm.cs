@@ -19,10 +19,12 @@ namespace RGRAB
         public BillingForm()
         {
             InitializeComponent();
+            textBillMonth.Enabled = false;
             List<string> listFlatNo = FirstLoad.Retrieve_fl();
             for (int i = 0; i < listFlatNo.Count; i++) // Loop through List with for
             {
                 selFlatNo.Items.Add(listFlatNo[i]);
+                textFlatNo.Items.Add(listFlatNo[i]);
             }
         }
         int itemCount = 0;
@@ -830,9 +832,88 @@ namespace RGRAB
             valueTotalAmount.Text = "";
         }
 
-        private void textUsage_TextChanged(object sender, EventArgs e)
+        private void textBillMonth_SelectedIndexChanged(object sender, EventArgs e)
         {
+            string valueFlatNo = textFlatNo.Text;
+            string valueMonth = textBillMonth.Text;
+            SQLiteConnection sqlite_conn;
+            SQLiteCommand sqlite_cmd;
+            SQLiteDataReader sqlite_datareader;
+            textInvoiceAmount.Text = "";
 
+            // create a new database connection:
+            sqlite_conn = new SQLiteConnection("Data Source=GasDb.db;Version=3;New=False;Compress=True;");
+
+            // open the connection:
+            sqlite_conn.Open();
+
+            // create a new SQL command:
+            sqlite_cmd = sqlite_conn.CreateCommand();
+
+            // First lets build a SQL-Query again:
+            sqlite_cmd.CommandText = "SELECT Invoice_Amount FROM Invoice_Detail where Flat_No = '" + valueFlatNo + "' and Reading_Month = '" + valueMonth + "'; ";
+
+            // Now the SQLiteCommand object can give us a DataReader-Object:
+            sqlite_datareader = sqlite_cmd.ExecuteReader();
+
+            // The SQLiteDataReader allows us to run through the result lines:
+            while (sqlite_datareader.Read()) // Read() returns true if there is still a result line to read
+            {
+                // Print out the content of the text field:
+                textInvoiceAmount.Text = sqlite_datareader.GetString(0);
+            }
+
+            // We are ready, now lets cleanup and close our connection:
+            sqlite_conn.Close();
+        }
+
+        private void textFlatNo_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            textBillMonth.Enabled = true;          
+        }
+
+        private void updPayment_Click(object sender, EventArgs e)
+        {
+            string valueFlatNo = textFlatNo.Text;
+            string valueMonth = textBillMonth.Text;
+            string valueAmount = textPaidAmount.Text;
+            DateTime today = DateTime.Today;
+            string Today = today.ToString("MM/dd/yyyy");
+
+            if (valueAmount == "")
+            {
+                MessageBox.Show("Please enter the paid amount", "Error!", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+                
+            SQLiteConnection sqlite_conn;
+            SQLiteCommand sqlite_cmd;
+            textInvoiceAmount.Text = "";
+
+            // create a new database connection:
+            sqlite_conn = new SQLiteConnection("Data Source=GasDb.db;Version=3;New=False;Compress=True;");
+
+            // open the connection:
+            sqlite_conn.Open();
+
+            // create a new SQL command:
+            sqlite_cmd = sqlite_conn.CreateCommand();
+            try
+            {
+                // First lets build a SQL-Query again:
+                sqlite_cmd.CommandText = "Update Invoice_Detail SET Paid_Date = '" + Today + "', Paid_Amount= '" + valueAmount + "' where Flat_No = '" + valueFlatNo + "' and Reading_Month = '" + valueMonth + "';";
+                //Execute the query
+                sqlite_cmd.ExecuteNonQuery();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message.ToString(), "Error!", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+            finally
+            {
+                // We are ready, now lets cleanup and close our connection:
+                sqlite_conn.Close();
+            }
         }
     }
 }

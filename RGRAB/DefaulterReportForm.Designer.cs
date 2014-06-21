@@ -29,6 +29,7 @@
         private void InitializeComponent()
         {
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(DefaulterReportForm));
             this.btnClose = new System.Windows.Forms.Button();
             this.dataGridView1 = new System.Windows.Forms.DataGridView();
             this.Column1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -96,7 +97,10 @@
             this.ClientSize = new System.Drawing.Size(434, 431);
             this.Controls.Add(this.dataGridView1);
             this.Controls.Add(this.btnClose);
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
+            this.MaximizeBox = false;
             this.MaximumSize = new System.Drawing.Size(450, 470);
+            this.MinimizeBox = false;
             this.MinimumSize = new System.Drawing.Size(450, 470);
             this.Name = "DefaulterReportForm";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;

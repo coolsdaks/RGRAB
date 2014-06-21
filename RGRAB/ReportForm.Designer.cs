@@ -35,9 +35,15 @@
             this.groupBox2 = new System.Windows.Forms.GroupBox();
             this.rptConsumptionReport = new System.Windows.Forms.Button();
             this.groupBox3 = new System.Windows.Forms.GroupBox();
+            this.btnCollection = new System.Windows.Forms.Button();
+            this.textCollection = new System.Windows.Forms.TextBox();
+            this.label2 = new System.Windows.Forms.Label();
+            this.dateTimePicker1 = new System.Windows.Forms.DateTimePicker();
+            this.label5 = new System.Windows.Forms.Label();
             this.btnClose = new System.Windows.Forms.Button();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
+            this.groupBox3.SuspendLayout();
             this.SuspendLayout();
             // 
             // groupBox1
@@ -118,6 +124,11 @@
             // 
             // groupBox3
             // 
+            this.groupBox3.Controls.Add(this.btnCollection);
+            this.groupBox3.Controls.Add(this.textCollection);
+            this.groupBox3.Controls.Add(this.label2);
+            this.groupBox3.Controls.Add(this.dateTimePicker1);
+            this.groupBox3.Controls.Add(this.label5);
             this.groupBox3.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.groupBox3.Location = new System.Drawing.Point(34, 284);
             this.groupBox3.Name = "groupBox3";
@@ -125,6 +136,53 @@
             this.groupBox3.TabIndex = 2;
             this.groupBox3.TabStop = false;
             this.groupBox3.Text = "Daily Collection Report";
+            // 
+            // btnCollection
+            // 
+            this.btnCollection.Location = new System.Drawing.Point(358, 25);
+            this.btnCollection.Name = "btnCollection";
+            this.btnCollection.Size = new System.Drawing.Size(124, 26);
+            this.btnCollection.TabIndex = 41;
+            this.btnCollection.Text = "Show";
+            this.btnCollection.UseVisualStyleBackColor = true;
+            this.btnCollection.Click += new System.EventHandler(this.btnCollection_Click);
+            // 
+            // textCollection
+            // 
+            this.textCollection.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.textCollection.Location = new System.Drawing.Point(190, 64);
+            this.textCollection.Name = "textCollection";
+            this.textCollection.ReadOnly = true;
+            this.textCollection.Size = new System.Drawing.Size(142, 20);
+            this.textCollection.TabIndex = 16;
+            // 
+            // label2
+            // 
+            this.label2.AutoSize = true;
+            this.label2.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label2.Location = new System.Drawing.Point(32, 65);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(152, 16);
+            this.label2.TabIndex = 15;
+            this.label2.Text = "Total Collection Rs. :";
+            // 
+            // dateTimePicker1
+            // 
+            this.dateTimePicker1.Format = System.Windows.Forms.DateTimePickerFormat.Short;
+            this.dateTimePicker1.Location = new System.Drawing.Point(190, 26);
+            this.dateTimePicker1.Name = "dateTimePicker1";
+            this.dateTimePicker1.Size = new System.Drawing.Size(142, 20);
+            this.dateTimePicker1.TabIndex = 14;
+            // 
+            // label5
+            // 
+            this.label5.AutoSize = true;
+            this.label5.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold);
+            this.label5.Location = new System.Drawing.Point(62, 30);
+            this.label5.Name = "label5";
+            this.label5.Size = new System.Drawing.Size(122, 16);
+            this.label5.TabIndex = 13;
+            this.label5.Text = "Collection Date :";
             // 
             // btnClose
             // 
@@ -145,12 +203,18 @@
             this.Controls.Add(this.groupBox3);
             this.Controls.Add(this.groupBox2);
             this.Controls.Add(this.groupBox1);
+            this.MaximizeBox = false;
+            this.MaximumSize = new System.Drawing.Size(610, 484);
+            this.MinimizeBox = false;
+            this.MinimumSize = new System.Drawing.Size(610, 484);
             this.Name = "ReportForm";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Reporting Form";
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
             this.groupBox2.ResumeLayout(false);
+            this.groupBox3.ResumeLayout(false);
+            this.groupBox3.PerformLayout();
             this.ResumeLayout(false);
 
         }
@@ -165,5 +229,10 @@
         private System.Windows.Forms.Label label6;
         private System.Windows.Forms.Button rptDefaulterReport;
         private System.Windows.Forms.Button rptConsumptionReport;
+        private System.Windows.Forms.DateTimePicker dateTimePicker1;
+        private System.Windows.Forms.Label label5;
+        private System.Windows.Forms.TextBox textCollection;
+        private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.Button btnCollection;
     }
 }

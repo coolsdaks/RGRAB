@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(BillingForm));
             this.subBatchMonth = new System.Windows.Forms.ComboBox();
             this.label6 = new System.Windows.Forms.Label();
             this.currentResident = new System.Windows.Forms.TextBox();
@@ -73,11 +74,21 @@
             this.clkBatchGenerateInvoice = new System.Windows.Forms.Button();
             this.clkBatchCalculate = new System.Windows.Forms.Button();
             this.clkCloseInput = new System.Windows.Forms.Button();
-            this.saveFileDialog1 = new System.Windows.Forms.SaveFileDialog();
+            this.groupBox5 = new System.Windows.Forms.GroupBox();
+            this.textInvoiceAmount = new System.Windows.Forms.TextBox();
+            this.label22 = new System.Windows.Forms.Label();
+            this.textBillMonth = new System.Windows.Forms.ComboBox();
+            this.label21 = new System.Windows.Forms.Label();
+            this.updPayment = new System.Windows.Forms.Button();
+            this.label20 = new System.Windows.Forms.Label();
+            this.textPaidAmount = new System.Windows.Forms.TextBox();
+            this.label19 = new System.Windows.Forms.Label();
+            this.textFlatNo = new System.Windows.Forms.ComboBox();
             this.groupBox1.SuspendLayout();
             this.groupBox4.SuspendLayout();
             this.groupBox3.SuspendLayout();
             this.groupBox2.SuspendLayout();
+            this.groupBox5.SuspendLayout();
             this.SuspendLayout();
             // 
             // subBatchMonth
@@ -97,7 +108,7 @@
             "October",
             "November",
             "December"});
-            this.subBatchMonth.Location = new System.Drawing.Point(244, 23);
+            this.subBatchMonth.Location = new System.Drawing.Point(256, 24);
             this.subBatchMonth.Name = "subBatchMonth";
             this.subBatchMonth.Size = new System.Drawing.Size(142, 21);
             this.subBatchMonth.TabIndex = 8;
@@ -106,7 +117,7 @@
             // 
             this.label6.AutoSize = true;
             this.label6.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label6.Location = new System.Drawing.Point(126, 24);
+            this.label6.Location = new System.Drawing.Point(138, 25);
             this.label6.Name = "label6";
             this.label6.Size = new System.Drawing.Size(112, 16);
             this.label6.TabIndex = 7;
@@ -408,7 +419,6 @@
             this.textUsage.Name = "textUsage";
             this.textUsage.Size = new System.Drawing.Size(64, 20);
             this.textUsage.TabIndex = 28;
-            this.textUsage.TextChanged += new System.EventHandler(this.textUsage_TextChanged);
             // 
             // label11
             // 
@@ -551,7 +561,7 @@
             // 
             // clkCloseInput
             // 
-            this.clkCloseInput.Location = new System.Drawing.Point(243, 573);
+            this.clkCloseInput.Location = new System.Drawing.Point(246, 672);
             this.clkCloseInput.Name = "clkCloseInput";
             this.clkCloseInput.Size = new System.Drawing.Size(168, 32);
             this.clkCloseInput.TabIndex = 18;
@@ -559,14 +569,139 @@
             this.clkCloseInput.UseVisualStyleBackColor = true;
             this.clkCloseInput.Click += new System.EventHandler(this.clkCloseInput_Click);
             // 
+            // groupBox5
+            // 
+            this.groupBox5.Controls.Add(this.textInvoiceAmount);
+            this.groupBox5.Controls.Add(this.label22);
+            this.groupBox5.Controls.Add(this.textBillMonth);
+            this.groupBox5.Controls.Add(this.label21);
+            this.groupBox5.Controls.Add(this.updPayment);
+            this.groupBox5.Controls.Add(this.label20);
+            this.groupBox5.Controls.Add(this.textPaidAmount);
+            this.groupBox5.Controls.Add(this.label19);
+            this.groupBox5.Controls.Add(this.textFlatNo);
+            this.groupBox5.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.groupBox5.Location = new System.Drawing.Point(12, 582);
+            this.groupBox5.Name = "groupBox5";
+            this.groupBox5.Size = new System.Drawing.Size(635, 78);
+            this.groupBox5.TabIndex = 19;
+            this.groupBox5.TabStop = false;
+            this.groupBox5.Text = "Update Payment Information";
+            // 
+            // textInvoiceAmount
+            // 
+            this.textInvoiceAmount.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.textInvoiceAmount.Location = new System.Drawing.Point(132, 52);
+            this.textInvoiceAmount.Name = "textInvoiceAmount";
+            this.textInvoiceAmount.ReadOnly = true;
+            this.textInvoiceAmount.Size = new System.Drawing.Size(106, 20);
+            this.textInvoiceAmount.TabIndex = 44;
+            // 
+            // label22
+            // 
+            this.label22.AutoSize = true;
+            this.label22.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold);
+            this.label22.Location = new System.Drawing.Point(5, 53);
+            this.label22.Name = "label22";
+            this.label22.Size = new System.Drawing.Size(121, 16);
+            this.label22.TabIndex = 43;
+            this.label22.Text = "Invoice Amount :";
+            // 
+            // textBillMonth
+            // 
+            this.textBillMonth.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.textBillMonth.FormattingEnabled = true;
+            this.textBillMonth.Items.AddRange(new object[] {
+            "January",
+            "February",
+            "March",
+            "April",
+            "May",
+            "June",
+            "July",
+            "August",
+            "September",
+            "October",
+            "November",
+            "December"});
+            this.textBillMonth.Location = new System.Drawing.Point(371, 18);
+            this.textBillMonth.Name = "textBillMonth";
+            this.textBillMonth.Size = new System.Drawing.Size(103, 21);
+            this.textBillMonth.TabIndex = 42;
+            this.textBillMonth.SelectedIndexChanged += new System.EventHandler(this.textBillMonth_SelectedIndexChanged);
+            // 
+            // label21
+            // 
+            this.label21.AutoSize = true;
+            this.label21.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label21.Location = new System.Drawing.Point(253, 19);
+            this.label21.Name = "label21";
+            this.label21.Size = new System.Drawing.Size(112, 16);
+            this.label21.TabIndex = 41;
+            this.label21.Text = "Billing Month. : ";
+            // 
+            // updPayment
+            // 
+            this.updPayment.Location = new System.Drawing.Point(496, 19);
+            this.updPayment.Name = "updPayment";
+            this.updPayment.Size = new System.Drawing.Size(124, 53);
+            this.updPayment.TabIndex = 40;
+            this.updPayment.Text = "Update Payment";
+            this.updPayment.UseVisualStyleBackColor = true;
+            this.updPayment.Click += new System.EventHandler(this.updPayment_Click);
+            // 
+            // label20
+            // 
+            this.label20.AutoSize = true;
+            this.label20.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold);
+            this.label20.Location = new System.Drawing.Point(253, 56);
+            this.label20.Name = "label20";
+            this.label20.Size = new System.Drawing.Size(107, 16);
+            this.label20.TabIndex = 39;
+            this.label20.Text = "Paid Amount  :";
+            // 
+            // textPaidAmount
+            // 
+            this.textPaidAmount.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.textPaidAmount.Location = new System.Drawing.Point(371, 52);
+            this.textPaidAmount.Name = "textPaidAmount";
+            this.textPaidAmount.Size = new System.Drawing.Size(103, 20);
+            this.textPaidAmount.TabIndex = 38;
+            // 
+            // label19
+            // 
+            this.label19.AutoSize = true;
+            this.label19.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label19.Location = new System.Drawing.Point(56, 20);
+            this.label19.Name = "label19";
+            this.label19.Size = new System.Drawing.Size(70, 16);
+            this.label19.TabIndex = 12;
+            this.label19.Text = "Flat No. :";
+            // 
+            // textFlatNo
+            // 
+            this.textFlatNo.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.textFlatNo.FormattingEnabled = true;
+            this.textFlatNo.Location = new System.Drawing.Point(132, 19);
+            this.textFlatNo.Name = "textFlatNo";
+            this.textFlatNo.Size = new System.Drawing.Size(106, 21);
+            this.textFlatNo.TabIndex = 11;
+            this.textFlatNo.SelectedIndexChanged += new System.EventHandler(this.textFlatNo_SelectedIndexChanged);
+            // 
             // BillingForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(661, 617);
+            this.ClientSize = new System.Drawing.Size(660, 711);
+            this.Controls.Add(this.groupBox5);
             this.Controls.Add(this.clkCloseInput);
             this.Controls.Add(this.groupBox2);
             this.Controls.Add(this.groupBox1);
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
+            this.MaximizeBox = false;
+            this.MaximumSize = new System.Drawing.Size(676, 750);
+            this.MinimizeBox = false;
+            this.MinimumSize = new System.Drawing.Size(676, 750);
             this.Name = "BillingForm";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Billing Form";
@@ -578,6 +713,8 @@
             this.groupBox3.PerformLayout();
             this.groupBox2.ResumeLayout(false);
             this.groupBox2.PerformLayout();
+            this.groupBox5.ResumeLayout(false);
+            this.groupBox5.PerformLayout();
             this.ResumeLayout(false);
 
         }
@@ -629,6 +766,15 @@
         private System.Windows.Forms.TextBox textSubsidyRate;
         private System.Windows.Forms.Button clkBatchGenerateInvoice;
         private System.Windows.Forms.Button clkBatchCalculate;
-        private System.Windows.Forms.SaveFileDialog saveFileDialog1;
+        private System.Windows.Forms.GroupBox groupBox5;
+        private System.Windows.Forms.Button updPayment;
+        private System.Windows.Forms.Label label20;
+        private System.Windows.Forms.TextBox textPaidAmount;
+        private System.Windows.Forms.Label label19;
+        private System.Windows.Forms.ComboBox textFlatNo;
+        private System.Windows.Forms.ComboBox textBillMonth;
+        private System.Windows.Forms.Label label21;
+        private System.Windows.Forms.TextBox textInvoiceAmount;
+        private System.Windows.Forms.Label label22;
     }
 }
