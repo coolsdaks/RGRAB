@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using Finisar.SQLite;
 
+
 namespace RGRAB
 {
     public partial class MainForm : Form
@@ -38,7 +39,7 @@ namespace RGRAB
             //string valueMonth = "";
 
             // create a new database connection:
-            sqlite_conn = new SQLiteConnection("Data Source=GasDb.db;Version=3;New=False;Compress=True;");
+            sqlite_conn = new SQLiteConnection("Data Source=C:\\RGRAB\\Application\\GasDB.db;Version=3;New=False;Compress=True;");
 
             // open the connection:
             sqlite_conn.Open();

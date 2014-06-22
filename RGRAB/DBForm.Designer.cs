@@ -40,10 +40,10 @@
             // 
             // button1
             // 
-            this.button1.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.button1.Location = new System.Drawing.Point(38, 86);
+            this.button1.Font = new System.Drawing.Font("Modern No. 20", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.button1.Location = new System.Drawing.Point(22, 70);
             this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(107, 23);
+            this.button1.Size = new System.Drawing.Size(119, 33);
             this.button1.TabIndex = 0;
             this.button1.Text = "Create DB";
             this.button1.UseVisualStyleBackColor = true;
@@ -51,10 +51,10 @@
             // 
             // button2
             // 
-            this.button2.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.button2.Location = new System.Drawing.Point(194, 86);
+            this.button2.Font = new System.Drawing.Font("Modern No. 20", 12F);
+            this.button2.Location = new System.Drawing.Point(182, 70);
             this.button2.Name = "button2";
-            this.button2.Size = new System.Drawing.Size(99, 23);
+            this.button2.Size = new System.Drawing.Size(120, 33);
             this.button2.TabIndex = 1;
             this.button2.Text = "Backup DB";
             this.button2.UseVisualStyleBackColor = true;
@@ -63,20 +63,20 @@
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Font = new System.Drawing.Font("Lucida Console", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label1.Font = new System.Drawing.Font("Lucida Sans", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label1.Location = new System.Drawing.Point(64, 30);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(201, 19);
+            this.label1.Size = new System.Drawing.Size(189, 22);
             this.label1.TabIndex = 2;
             this.label1.Text = "Database Options";
             this.label1.TextAlign = System.Drawing.ContentAlignment.TopCenter;
             // 
             // initImport
             // 
-            this.initImport.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold);
-            this.initImport.Location = new System.Drawing.Point(40, 138);
+            this.initImport.Font = new System.Drawing.Font("Modern No. 20", 12F);
+            this.initImport.Location = new System.Drawing.Point(22, 124);
             this.initImport.Name = "initImport";
-            this.initImport.Size = new System.Drawing.Size(107, 23);
+            this.initImport.Size = new System.Drawing.Size(119, 36);
             this.initImport.TabIndex = 0;
             this.initImport.Text = "Initial Import";
             this.initImport.UseVisualStyleBackColor = true;
@@ -89,9 +89,9 @@
             // 
             // progressBar1
             // 
-            this.progressBar1.Location = new System.Drawing.Point(182, 140);
+            this.progressBar1.Location = new System.Drawing.Point(182, 130);
             this.progressBar1.Name = "progressBar1";
-            this.progressBar1.Size = new System.Drawing.Size(120, 20);
+            this.progressBar1.Size = new System.Drawing.Size(120, 24);
             this.progressBar1.TabIndex = 3;
             // 
             // DBForm

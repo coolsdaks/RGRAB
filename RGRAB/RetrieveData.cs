@@ -25,7 +25,7 @@ namespace RGRAB
                 Double[] myArray = new Double[2];
 
                 // create a new database connection:
-                sqlite_conn = new SQLiteConnection("Data Source=GasDb.db;Version=3;New=False;Compress=True;");
+                sqlite_conn = new SQLiteConnection("Data Source=C:\\RGRAB\\Application\\GasDB.db;Version=3;New=False;Compress=True;");
 
                 // open the connection:
                 sqlite_conn.Open();
@@ -71,7 +71,7 @@ namespace RGRAB
             string valUnit = "";
 
             // create a new database connection:
-            sqlite_conn = new SQLiteConnection("Data Source=GasDb.db;Version=3;New=False;Compress=True;");
+            sqlite_conn = new SQLiteConnection("Data Source=C:\\RGRAB\\Application\\GasDB.db;Version=3;New=False;Compress=True;");
 
             // open the connection:
             sqlite_conn.Open();
@@ -114,7 +114,7 @@ namespace RGRAB
             SQLiteDataReader sqlite_datareader;
 
             // create a new database connection:
-            sqlite_conn = new SQLiteConnection("Data Source=GasDb.db;Version=3;New=False;Compress=True;");
+            sqlite_conn = new SQLiteConnection("Data Source=C:\\RGRAB\\Application\\GasDB.db;Version=3;New=False;Compress=True;");
 
             // open the connection:
             sqlite_conn.Open();
@@ -178,7 +178,7 @@ namespace RGRAB
             SQLiteDataReader sqlite_datareader;
 
             // create a new database connection:
-            sqlite_conn = new SQLiteConnection("Data Source=GasDb.db;Version=3;New=False;Compress=True;");
+            sqlite_conn = new SQLiteConnection("Data Source=C:\\RGRAB\\Application\\GasDB.db;Version=3;New=False;Compress=True;");
 
             // open the connection:
             sqlite_conn.Open();

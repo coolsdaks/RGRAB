@@ -11,7 +11,6 @@ using System.Windows.Forms;
 using Finisar.SQLite;
 
 
-
 namespace RGRAB
 {
     public partial class BillingForm : Form
@@ -43,7 +42,7 @@ namespace RGRAB
             SQLiteDataReader sqlite_datareader;
 
             // create a new database connection:
-            sqlite_conn = new SQLiteConnection("Data Source=GasDb.db;Version=3;New=False;Compress=True;");
+            sqlite_conn = new SQLiteConnection("Data Source=C:\\RGRAB\\Application\\GasDB.db;Version=3;New=False;Compress=True;");
 
             // open the connection:
             sqlite_conn.Open();
@@ -200,7 +199,7 @@ namespace RGRAB
             SQLiteCommand sqlite_cmd;
 
             // create a new database connection:
-            sqlite_conn = new SQLiteConnection("Data Source=GasDb.db;Version=3;New=False;Compress=True;");
+            sqlite_conn = new SQLiteConnection("Data Source=C:\\RGRAB\\Application\\GasDB.db;Version=3;New=False;Compress=True;");
 
             // open the connection:
             sqlite_conn.Open();
@@ -261,7 +260,7 @@ namespace RGRAB
             SQLiteDataReader sqlite_datareader;
 
             // create a new database connection:
-            sqlite_conn = new SQLiteConnection("Data Source=GasDb.db;Version=3;New=False;Compress=True;");
+            sqlite_conn = new SQLiteConnection("Data Source=C:\\RGRAB\\Application\\GasDB.db;Version=3;New=False;Compress=True;");
 
             // open the connection:
             sqlite_conn.Open();
@@ -392,7 +391,7 @@ namespace RGRAB
             SQLiteDataReader sqlite_datareader;
 
             // create a new database connection:
-            sqlite_conn = new SQLiteConnection("Data Source=GasDb.db;Version=3;New=False;Compress=True;");
+            sqlite_conn = new SQLiteConnection("Data Source=C:\\RGRAB\\Application\\GasDB.db;Version=3;New=False;Compress=True;");
 
             // open the connection:
             sqlite_conn.Open();
@@ -490,7 +489,7 @@ namespace RGRAB
             SQLiteDataReader sqlite_datareader;
 
             // create a new database connection:
-            sqlite_conn = new SQLiteConnection("Data Source=GasDb.db;Version=3;New=False;Compress=True;");
+            sqlite_conn = new SQLiteConnection("Data Source=C:\\RGRAB\\Application\\GasDB.db;Version=3;New=False;Compress=True;");
 
             // open the connection:
             sqlite_conn.Open();
@@ -842,7 +841,7 @@ namespace RGRAB
             textInvoiceAmount.Text = "";
 
             // create a new database connection:
-            sqlite_conn = new SQLiteConnection("Data Source=GasDb.db;Version=3;New=False;Compress=True;");
+            sqlite_conn = new SQLiteConnection("Data Source=C:\\RGRAB\\Application\\GasDB.db;Version=3;New=False;Compress=True;");
 
             // open the connection:
             sqlite_conn.Open();
@@ -891,7 +890,7 @@ namespace RGRAB
             textInvoiceAmount.Text = "";
 
             // create a new database connection:
-            sqlite_conn = new SQLiteConnection("Data Source=GasDb.db;Version=3;New=False;Compress=True;");
+            sqlite_conn = new SQLiteConnection("Data Source=C:\\RGRAB\\Application\\GasDB.db;Version=3;New=False;Compress=True;");
 
             // open the connection:
             sqlite_conn.Open();
@@ -904,6 +903,8 @@ namespace RGRAB
                 sqlite_cmd.CommandText = "Update Invoice_Detail SET Paid_Date = '" + Today + "', Paid_Amount= '" + valueAmount + "' where Flat_No = '" + valueFlatNo + "' and Reading_Month = '" + valueMonth + "';";
                 //Execute the query
                 sqlite_cmd.ExecuteNonQuery();
+
+                MessageBox.Show("Payment details updated successfully for Flat No '" + valueFlatNo + "'", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
             catch (Exception ex)
             {

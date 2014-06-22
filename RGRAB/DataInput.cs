@@ -52,7 +52,7 @@ namespace RGRAB
             }
 
             // create a new database connection:
-            sqlite_conn = new SQLiteConnection("Data Source=GasDb.db;Version=3;New=False;Compress=True;");
+            sqlite_conn = new SQLiteConnection("Data Source=Data Source=C:\\RGRAB\\Application\\GasDB.db;Version=3;New=False;Compress=True;");
 
             // open the connection:
             sqlite_conn.Open();
@@ -120,7 +120,7 @@ namespace RGRAB
             SQLiteDataReader sqlite_datareader;
 
             // create a new database connection:
-            sqlite_conn = new SQLiteConnection("Data Source=GasDb.db;Version=3;New=False;Compress=True;");
+            sqlite_conn = new SQLiteConnection("Data Source=C:\\RGRAB\\Application\\GasDB.db;Version=3;New=False;Compress=True;");
 
             // open the connection:
             sqlite_conn.Open();
@@ -189,7 +189,7 @@ namespace RGRAB
             string sexcelconnectionstring = @"provider=microsoft.jet.oledb.4.0;data source=" + strFilePath + ";extended properties=" + "\"excel 8.0;hdr=yes;\"";
 
             // create a new database connection:
-            sqlite_conn = new SQLiteConnection("Data Source=GasDB.db;Version=3;New=False;Compress=True;");
+            sqlite_conn = new SQLiteConnection("Data Source=C:\\RGRAB\\Application\\GasDB.db;Version=3;New=False;Compress=True;");
 
             // open the connection:
             sqlite_conn.Open();

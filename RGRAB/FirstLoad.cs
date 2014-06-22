@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using Finisar.SQLite;
 
+
 namespace RGRAB
 {
     class FirstLoad
@@ -21,7 +22,7 @@ namespace RGRAB
             List<string> listFlatNo = new List<string>();
 
             // create a new database connection:
-            sqlite_conn = new SQLiteConnection("Data Source=GasDb.db;Version=3;New=False;Compress=True;");
+            sqlite_conn = new SQLiteConnection("Data Source=C:\\RGRAB\\Application\\GasDB.db;Version=3;New=False;Compress=True;");
 
             // open the connection:
             sqlite_conn.Open();
@@ -57,7 +58,7 @@ namespace RGRAB
             List<Invoice_Retrieve> invoiceRetList = new List<Invoice_Retrieve>();
             
                 // create a new database connection:
-                sqlite_conn = new SQLiteConnection("Data Source=GasDb.db;Version=3;New=False;Compress=True;");
+                sqlite_conn = new SQLiteConnection("Data Source=C:\\RGRAB\\Application\\GasDB.db;Version=3;New=False;Compress=True;");
                 try
                 {
                 // open the connection:
@@ -125,7 +126,7 @@ namespace RGRAB
             List<ConsumptionDetail> consumptionList = new List<ConsumptionDetail>();
             
                 // create a new database connection:
-                sqlite_conn = new SQLiteConnection("Data Source=GasDb.db;Version=3;New=False;Compress=True;");
+                sqlite_conn = new SQLiteConnection("Data Source=C:\\RGRAB\\Application\\GasDB.db;Version=3;New=False;Compress=True;");
                 try
                 {
                 // open the connection:
@@ -201,7 +202,7 @@ namespace RGRAB
             List<DefaulterDetail> defaulterList = new List<DefaulterDetail>();
 
             // create a new database connection:
-            sqlite_conn = new SQLiteConnection("Data Source=GasDb.db;Version=3;New=False;Compress=True;");
+            sqlite_conn = new SQLiteConnection("Data Source=C:\\RGRAB\\Application\\GasDB.db;Version=3;New=False;Compress=True;");
             try
             {
                 // open the connection:
