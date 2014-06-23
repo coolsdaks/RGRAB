@@ -59,7 +59,9 @@
             this.label9 = new System.Windows.Forms.Label();
             this.textConsumption = new System.Windows.Forms.TextBox();
             this.label10 = new System.Windows.Forms.Label();
+            this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.groupBox1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.SuspendLayout();
             // 
             // label1
@@ -79,6 +81,7 @@
             this.selFlatNo.Name = "selFlatNo";
             this.selFlatNo.Size = new System.Drawing.Size(142, 21);
             this.selFlatNo.TabIndex = 1;
+            this.selFlatNo.TabStop = false;
             this.selFlatNo.SelectedIndexChanged += new System.EventHandler(this.selFlatNo_SelectedIndexChanged_1);
             // 
             // label2
@@ -99,6 +102,7 @@
             this.currentResident.ReadOnly = true;
             this.currentResident.Size = new System.Drawing.Size(333, 20);
             this.currentResident.TabIndex = 7;
+            this.currentResident.TabStop = false;
             // 
             // label3
             // 
@@ -118,6 +122,7 @@
             this.subStatus.ReadOnly = true;
             this.subStatus.Size = new System.Drawing.Size(142, 20);
             this.subStatus.TabIndex = 9;
+            this.subStatus.TabStop = false;
             // 
             // label4
             // 
@@ -146,6 +151,7 @@
             this.dateTimePicker1.Name = "dateTimePicker1";
             this.dateTimePicker1.Size = new System.Drawing.Size(142, 20);
             this.dateTimePicker1.TabIndex = 12;
+            this.dateTimePicker1.TabStop = false;
             // 
             // selMonth
             // 
@@ -167,6 +173,7 @@
             this.selMonth.Name = "selMonth";
             this.selMonth.Size = new System.Drawing.Size(142, 21);
             this.selMonth.TabIndex = 13;
+            this.selMonth.TabStop = false;
             // 
             // label6
             // 
@@ -183,10 +190,13 @@
             this.untInput.Location = new System.Drawing.Point(329, 281);
             this.untInput.Name = "untInput";
             this.untInput.Size = new System.Drawing.Size(141, 20);
-            this.untInput.TabIndex = 15;
+            this.untInput.TabIndex = 1;
+            this.untInput.TabStop = false;
+            this.untInput.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.untInput_KeyPress);
             // 
             // groupBox1
             // 
+            this.groupBox1.BackColor = System.Drawing.SystemColors.ActiveBorder;
             this.groupBox1.Controls.Add(this.yearText);
             this.groupBox1.Controls.Add(this.label11);
             this.groupBox1.Controls.Add(this.selFile);
@@ -202,7 +212,7 @@
             this.groupBox1.Size = new System.Drawing.Size(645, 166);
             this.groupBox1.TabIndex = 16;
             this.groupBox1.TabStop = false;
-            this.groupBox1.Text = "Batch Import Reading";
+            this.groupBox1.Text = "   Batch Import Reading";
             // 
             // yearText
             // 
@@ -221,6 +231,7 @@
             this.yearText.Name = "yearText";
             this.yearText.Size = new System.Drawing.Size(124, 21);
             this.yearText.TabIndex = 26;
+            this.yearText.TabStop = false;
             // 
             // label11
             // 
@@ -238,6 +249,7 @@
             this.selFile.Name = "selFile";
             this.selFile.Size = new System.Drawing.Size(102, 22);
             this.selFile.TabIndex = 24;
+            this.selFile.TabStop = false;
             this.selFile.Text = "Select File";
             this.selFile.UseVisualStyleBackColor = true;
             this.selFile.Click += new System.EventHandler(this.selFile_Click);
@@ -251,6 +263,7 @@
             this.textFilePath.ReadOnly = true;
             this.textFilePath.Size = new System.Drawing.Size(338, 20);
             this.textFilePath.TabIndex = 23;
+            this.textFilePath.TabStop = false;
             // 
             // label8
             // 
@@ -274,11 +287,14 @@
             this.btchImport.BackColor = System.Drawing.Color.LightGray;
             this.btchImport.Cursor = System.Windows.Forms.Cursors.Default;
             this.btchImport.Font = new System.Drawing.Font("Modern No. 20", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btchImport.Image = global::RGRAB.Properties.Resources.Import;
+            this.btchImport.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.btchImport.Location = new System.Drawing.Point(315, 50);
             this.btchImport.Name = "btchImport";
             this.btchImport.Size = new System.Drawing.Size(298, 69);
-            this.btchImport.TabIndex = 20;
-            this.btchImport.Text = "Batch Import Reading Data";
+            this.btchImport.TabIndex = 4;
+            this.btchImport.TabStop = false;
+            this.btchImport.Text = "        Batch Import Reading Data";
             this.btchImport.UseVisualStyleBackColor = false;
             this.btchImport.Click += new System.EventHandler(this.btchImport_Click);
             // 
@@ -303,6 +319,7 @@
             this.selMonth1.Name = "selMonth1";
             this.selMonth1.Size = new System.Drawing.Size(124, 21);
             this.selMonth1.TabIndex = 15;
+            this.selMonth1.TabStop = false;
             // 
             // label7
             // 
@@ -319,7 +336,8 @@
             this.clkCloseInput.Location = new System.Drawing.Point(289, 543);
             this.clkCloseInput.Name = "clkCloseInput";
             this.clkCloseInput.Size = new System.Drawing.Size(168, 32);
-            this.clkCloseInput.TabIndex = 17;
+            this.clkCloseInput.TabIndex = 5;
+            this.clkCloseInput.TabStop = false;
             this.clkCloseInput.Text = "Close";
             this.clkCloseInput.UseVisualStyleBackColor = true;
             this.clkCloseInput.Click += new System.EventHandler(this.clkClose_Click);
@@ -329,7 +347,8 @@
             this.clkSubmit.Location = new System.Drawing.Point(208, 325);
             this.clkSubmit.Name = "clkSubmit";
             this.clkSubmit.Size = new System.Drawing.Size(136, 23);
-            this.clkSubmit.TabIndex = 19;
+            this.clkSubmit.TabIndex = 2;
+            this.clkSubmit.TabStop = false;
             this.clkSubmit.Text = "Submit";
             this.clkSubmit.UseVisualStyleBackColor = true;
             this.clkSubmit.Click += new System.EventHandler(this.clkSubmit_Click);
@@ -339,7 +358,8 @@
             this.clkReset.Location = new System.Drawing.Point(391, 325);
             this.clkReset.Name = "clkReset";
             this.clkReset.Size = new System.Drawing.Size(136, 23);
-            this.clkReset.TabIndex = 20;
+            this.clkReset.TabIndex = 3;
+            this.clkReset.TabStop = false;
             this.clkReset.Text = "Reset";
             this.clkReset.UseVisualStyleBackColor = true;
             this.clkReset.Click += new System.EventHandler(this.clkReset_Click);
@@ -367,6 +387,7 @@
             this.textConsumption.ReadOnly = true;
             this.textConsumption.Size = new System.Drawing.Size(142, 20);
             this.textConsumption.TabIndex = 22;
+            this.textConsumption.TabStop = false;
             // 
             // label10
             // 
@@ -378,11 +399,21 @@
             this.label10.TabIndex = 23;
             this.label10.Text = "Units";
             // 
+            // pictureBox1
+            // 
+            this.pictureBox1.Image = global::RGRAB.Properties.Resources.Input1;
+            this.pictureBox1.Location = new System.Drawing.Point(21, 13);
+            this.pictureBox1.Name = "pictureBox1";
+            this.pictureBox1.Size = new System.Drawing.Size(72, 68);
+            this.pictureBox1.TabIndex = 24;
+            this.pictureBox1.TabStop = false;
+            // 
             // DataInput
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(744, 587);
+            this.Controls.Add(this.pictureBox1);
             this.Controls.Add(this.label10);
             this.Controls.Add(this.textConsumption);
             this.Controls.Add(this.label9);
@@ -412,6 +443,7 @@
             this.Text = "Reading Input";
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -448,5 +480,6 @@
         private System.Windows.Forms.Label label10;
         private System.Windows.Forms.ComboBox yearText;
         private System.Windows.Forms.Label label11;
+        private System.Windows.Forms.PictureBox pictureBox1;
     }
 }

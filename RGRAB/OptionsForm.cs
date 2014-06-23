@@ -205,5 +205,48 @@ namespace RGRAB
           
         }
 
+        private void subText_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            char ch = e.KeyChar;
+
+            if (ch == 46 && subText.Text.IndexOf('.') != -1)
+            {
+                e.Handled = true;
+                return;
+            }
+
+            if (!char.IsDigit(ch) && ch != 8 && ch != 46)
+            {
+                e.Handled = true;
+            }
+        }
+
+        private void unsubText_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            char ch = e.KeyChar;
+
+            if (ch == 46 && unsubText.Text.IndexOf('.') != -1)
+            {
+                e.Handled = true;
+                return;
+            }
+
+            if (!char.IsDigit(ch) && ch != 8 && ch != 46)
+            {
+                e.Handled = true;
+            }
+        }
+
+        private void futureResident_KeyPress(object sender, KeyPressEventArgs e)
+        {
+
+            char ch = e.KeyChar;
+
+            if (!char.IsLetter(ch) && ch != 8)
+            {
+                e.Handled = true;
+            }
+        }
+
     }
 }

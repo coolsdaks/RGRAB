@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using Finisar.SQLite;
 using System.Data.OleDb;
+using System.IO;
 
 
 namespace RGRAB
@@ -20,7 +21,7 @@ namespace RGRAB
             InitializeComponent();
         }
 
-        private void button1_Click(object sender, EventArgs e)
+        private void btnCreateDB_Click(object sender, EventArgs e)
         {
 
             //Define the Variables
@@ -38,7 +39,6 @@ namespace RGRAB
             try
             {
                 // Creating the subsidy table first
-                //sqlite_cmd.CommandText = "CREATE TABLE SubValue (id integer PRIMARY KEY, Month varchar(10) NOT NULL, Subsidized double, NonSubsidized double);";
                 sqlite_cmd.CommandText = "CREATE TABLE SubValue (Year Varchar(04) NOT NULL, Month varchar(10) NOT NULL, Subsidized double, NonSubsidized double, PRIMARY KEY(Year,Month));";
 
                 // Now lets execute the SQL ;D
@@ -59,8 +59,8 @@ namespace RGRAB
                 //Execute the query
                 sqlite_cmd.ExecuteNonQuery();
 
-                Cursor.Current = Cursors.Default;              
-                MessageBox.Show("All Databases successfully created", "Success",MessageBoxButtons.OK, MessageBoxIcon.Information);
+                Cursor.Current = Cursors.Default;
+                MessageBox.Show("All Databases created successfully", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
 
             }
             catch (Exception ex)
@@ -75,9 +75,22 @@ namespace RGRAB
             
         }
 
-        private void button2_Click(object sender, EventArgs e)
+        private void btnBackup_Click(object sender, EventArgs e)
         {
-
+            DateTime today = DateTime.Today;
+            string Today = today.ToString("MMddyyyy");
+            string sourceName = @"C:\\RGRAB\\Application\\GasDB.db";
+            string destName = Path.Combine("C:\\RGRAB\\Application", Path.GetFileName(sourceName));
+            try
+            {
+                if (File.Exists(destName))
+                    File.Copy(sourceName, destName + "_" +Today + ".bak");
+                MessageBox.Show("Database backup completed successfully", " Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message.ToString(), "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
         }
 
         private void initImport_Click(object sender, EventArgs e)
@@ -146,7 +159,7 @@ namespace RGRAB
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.ToString());
+                MessageBox.Show(ex.ToString(), "Error", MessageBoxButtons.OK,MessageBoxIcon.Error);
             }
             
            }
@@ -158,9 +171,14 @@ namespace RGRAB
             {
                 timer1.Enabled = false;
                 Cursor.Current = Cursors.Default;
-                MessageBox.Show("Resident Details successfully Updated");
+                MessageBox.Show("Resident Details updated successfully", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
 
             }
+        }
+
+        private void btnClose_Click(object sender, EventArgs e)
+        {
+            this.Close();
         }
 
         }

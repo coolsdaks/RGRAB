@@ -21,8 +21,7 @@ namespace RGRAB
 
         private void btnOptions_Click(object sender, EventArgs e)
          {
-             string senderValue = "options";
-             Security passForm = new Security(senderValue);
+             Security passForm = new Security();
              passForm.Show();
         }
 
@@ -117,8 +116,7 @@ namespace RGRAB
 
         private void btnDatabase_Click(object sender, EventArgs e)
         {
-            string senderValue = "database";
-            Security passForm = new Security(senderValue);
+            Security passForm = new Security();
             passForm.Show();
         }
 

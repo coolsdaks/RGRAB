@@ -37,7 +37,7 @@
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.initImport = new System.Windows.Forms.Button();
             this.btnBackup = new System.Windows.Forms.Button();
-            this.btnCreateDB = new System.Windows.Forms.Button();
+            this.button1 = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.SuspendLayout();
             // 
@@ -59,14 +59,14 @@
             // 
             // progressBar1
             // 
-            this.progressBar1.Location = new System.Drawing.Point(24, 221);
+            this.progressBar1.Location = new System.Drawing.Point(31, 221);
             this.progressBar1.Name = "progressBar1";
-            this.progressBar1.Size = new System.Drawing.Size(390, 25);
+            this.progressBar1.Size = new System.Drawing.Size(391, 24);
             this.progressBar1.TabIndex = 3;
             // 
             // btnClose
             // 
-            this.btnClose.Location = new System.Drawing.Point(182, 254);
+            this.btnClose.Location = new System.Drawing.Point(175, 251);
             this.btnClose.Name = "btnClose";
             this.btnClose.Size = new System.Drawing.Size(75, 23);
             this.btnClose.TabIndex = 5;
@@ -90,7 +90,7 @@
             this.initImport.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.initImport.Location = new System.Drawing.Point(62, 168);
             this.initImport.Name = "initImport";
-            this.initImport.Size = new System.Drawing.Size(323, 45);
+            this.initImport.Size = new System.Drawing.Size(323, 40);
             this.initImport.TabIndex = 0;
             this.initImport.Text = "        Initial import of Resident Details";
             this.initImport.UseVisualStyleBackColor = true;
@@ -109,18 +109,18 @@
             this.btnBackup.UseVisualStyleBackColor = true;
             this.btnBackup.Click += new System.EventHandler(this.btnBackup_Click);
             // 
-            // btnCreateDB
+            // button1
             // 
-            this.btnCreateDB.Font = new System.Drawing.Font("Modern No. 20", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnCreateDB.Image = global::RGRAB.Properties.Resources.DBcreate;
-            this.btnCreateDB.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.btnCreateDB.Location = new System.Drawing.Point(62, 113);
-            this.btnCreateDB.Name = "btnCreateDB";
-            this.btnCreateDB.Size = new System.Drawing.Size(144, 40);
-            this.btnCreateDB.TabIndex = 0;
-            this.btnCreateDB.Text = "      Create DB";
-            this.btnCreateDB.UseVisualStyleBackColor = true;
-            this.btnCreateDB.Click += new System.EventHandler(this.btnCreateDB_Click);
+            this.button1.Font = new System.Drawing.Font("Modern No. 20", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.button1.Image = global::RGRAB.Properties.Resources.DBcreate;
+            this.button1.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.button1.Location = new System.Drawing.Point(62, 113);
+            this.button1.Name = "button1";
+            this.button1.Size = new System.Drawing.Size(144, 40);
+            this.button1.TabIndex = 0;
+            this.button1.Text = "      Create DB";
+            this.button1.UseVisualStyleBackColor = true;
+            this.button1.Click += new System.EventHandler(this.button1_Click);
             // 
             // DBForm
             // 
@@ -133,7 +133,7 @@
             this.Controls.Add(this.initImport);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.btnBackup);
-            this.Controls.Add(this.btnCreateDB);
+            this.Controls.Add(this.button1);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MaximizeBox = false;
             this.MaximumSize = new System.Drawing.Size(455, 325);
@@ -150,7 +150,7 @@
 
         #endregion
 
-        private System.Windows.Forms.Button btnCreateDB;
+        private System.Windows.Forms.Button button1;
         private System.Windows.Forms.Button btnBackup;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Button initImport;

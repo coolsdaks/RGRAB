@@ -12,17 +12,15 @@ namespace RGRAB
 {
     public partial class Security : Form
     {
-        public Security(string senderValue)
+        public Security()
         {
             InitializeComponent();
             textPassword.PasswordChar = '*';
-            string strValue = senderValue;
         }
 
         private void clkSubmit_Click(object sender, EventArgs e)
         {
             string valuePass = textPassword.Text;
-            //string valueSender = strValue;          
             if (valuePass == "MVSCHS")
             {
                 this.Close();

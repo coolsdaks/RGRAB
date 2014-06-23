@@ -36,6 +36,7 @@
             this.label1 = new System.Windows.Forms.Label();
             this.selFlatNo = new System.Windows.Forms.ComboBox();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.groupBox4 = new System.Windows.Forms.GroupBox();
             this.label18 = new System.Windows.Forms.Label();
             this.label17 = new System.Windows.Forms.Label();
@@ -73,7 +74,7 @@
             this.groupBox2 = new System.Windows.Forms.GroupBox();
             this.clkBatchGenerateInvoice = new System.Windows.Forms.Button();
             this.clkBatchCalculate = new System.Windows.Forms.Button();
-            this.clkCloseInput = new System.Windows.Forms.Button();
+            this.clkCloseBilling = new System.Windows.Forms.Button();
             this.groupBox5 = new System.Windows.Forms.GroupBox();
             this.textInvoiceAmount = new System.Windows.Forms.TextBox();
             this.label22 = new System.Windows.Forms.Label();
@@ -85,6 +86,7 @@
             this.label19 = new System.Windows.Forms.Label();
             this.textFlatNo = new System.Windows.Forms.ComboBox();
             this.groupBox1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.groupBox4.SuspendLayout();
             this.groupBox3.SuspendLayout();
             this.groupBox2.SuspendLayout();
@@ -112,6 +114,7 @@
             this.subBatchMonth.Name = "subBatchMonth";
             this.subBatchMonth.Size = new System.Drawing.Size(142, 21);
             this.subBatchMonth.TabIndex = 8;
+            this.subBatchMonth.TabStop = false;
             // 
             // label6
             // 
@@ -130,6 +133,7 @@
             this.currentResident.ReadOnly = true;
             this.currentResident.Size = new System.Drawing.Size(303, 20);
             this.currentResident.TabIndex = 12;
+            this.currentResident.TabStop = false;
             // 
             // label2
             // 
@@ -159,10 +163,12 @@
             this.selFlatNo.Name = "selFlatNo";
             this.selFlatNo.Size = new System.Drawing.Size(142, 21);
             this.selFlatNo.TabIndex = 9;
+            this.selFlatNo.TabStop = false;
             this.selFlatNo.SelectedIndexChanged += new System.EventHandler(this.selFlatNo_SelectedIndexChanged);
             // 
             // groupBox1
             // 
+            this.groupBox1.Controls.Add(this.pictureBox1);
             this.groupBox1.Controls.Add(this.groupBox4);
             this.groupBox1.Controls.Add(this.clkReset);
             this.groupBox1.Controls.Add(this.clkGenerateInvoice);
@@ -190,8 +196,18 @@
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Individual Billing";
             // 
+            // pictureBox1
+            // 
+            this.pictureBox1.Image = global::RGRAB.Properties.Resources.Billing1;
+            this.pictureBox1.Location = new System.Drawing.Point(25, 32);
+            this.pictureBox1.Name = "pictureBox1";
+            this.pictureBox1.Size = new System.Drawing.Size(72, 66);
+            this.pictureBox1.TabIndex = 32;
+            this.pictureBox1.TabStop = false;
+            // 
             // groupBox4
             // 
+            this.groupBox4.BackColor = System.Drawing.SystemColors.AppWorkspace;
             this.groupBox4.Controls.Add(this.label18);
             this.groupBox4.Controls.Add(this.label17);
             this.groupBox4.Controls.Add(this.textSubsidyRate);
@@ -232,16 +248,21 @@
             this.textSubsidyRate.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.textSubsidyRate.Location = new System.Drawing.Point(459, 48);
             this.textSubsidyRate.Name = "textSubsidyRate";
+            this.textSubsidyRate.ReadOnly = true;
             this.textSubsidyRate.Size = new System.Drawing.Size(64, 20);
             this.textSubsidyRate.TabIndex = 34;
+            this.textSubsidyRate.TabStop = false;
             // 
             // subUnits
             // 
             this.subUnits.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.subUnits.Location = new System.Drawing.Point(460, 19);
             this.subUnits.Name = "subUnits";
+            this.subUnits.ReadOnly = true;
+            this.subUnits.ShortcutsEnabled = false;
             this.subUnits.Size = new System.Drawing.Size(64, 20);
             this.subUnits.TabIndex = 26;
+            this.subUnits.TabStop = false;
             // 
             // label10
             // 
@@ -268,23 +289,28 @@
             this.nonsubUnits.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.nonsubUnits.Location = new System.Drawing.Point(221, 16);
             this.nonsubUnits.Name = "nonsubUnits";
+            this.nonsubUnits.ReadOnly = true;
             this.nonsubUnits.Size = new System.Drawing.Size(64, 20);
             this.nonsubUnits.TabIndex = 25;
+            this.nonsubUnits.TabStop = false;
             // 
             // textNonSubsidyRate
             // 
             this.textNonSubsidyRate.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.textNonSubsidyRate.Location = new System.Drawing.Point(221, 48);
             this.textNonSubsidyRate.Name = "textNonSubsidyRate";
+            this.textNonSubsidyRate.ReadOnly = true;
             this.textNonSubsidyRate.Size = new System.Drawing.Size(64, 20);
             this.textNonSubsidyRate.TabIndex = 33;
+            this.textNonSubsidyRate.TabStop = false;
             // 
             // clkReset
             // 
             this.clkReset.Location = new System.Drawing.Point(454, 390);
             this.clkReset.Name = "clkReset";
             this.clkReset.Size = new System.Drawing.Size(94, 26);
-            this.clkReset.TabIndex = 30;
+            this.clkReset.TabIndex = 4;
+            this.clkReset.TabStop = false;
             this.clkReset.Text = "Reset";
             this.clkReset.UseVisualStyleBackColor = true;
             this.clkReset.Click += new System.EventHandler(this.clkReset_Click);
@@ -294,7 +320,8 @@
             this.clkGenerateInvoice.Location = new System.Drawing.Point(223, 390);
             this.clkGenerateInvoice.Name = "clkGenerateInvoice";
             this.clkGenerateInvoice.Size = new System.Drawing.Size(190, 26);
-            this.clkGenerateInvoice.TabIndex = 29;
+            this.clkGenerateInvoice.TabIndex = 3;
+            this.clkGenerateInvoice.TabStop = false;
             this.clkGenerateInvoice.Text = "Print Individual Invoice";
             this.clkGenerateInvoice.UseVisualStyleBackColor = true;
             this.clkGenerateInvoice.Click += new System.EventHandler(this.clkGenerateInvoice_Click);
@@ -304,13 +331,16 @@
             this.clkCalculate.Location = new System.Drawing.Point(87, 390);
             this.clkCalculate.Name = "clkCalculate";
             this.clkCalculate.Size = new System.Drawing.Size(94, 26);
-            this.clkCalculate.TabIndex = 28;
+            this.clkCalculate.TabIndex = 2;
+            this.clkCalculate.TabStop = false;
             this.clkCalculate.Text = "Calculate";
             this.clkCalculate.UseVisualStyleBackColor = true;
             this.clkCalculate.Click += new System.EventHandler(this.clkCalculate_Click);
+            this.clkCalculate.Enter += new System.EventHandler(this.clkCalculate_Click);
             // 
             // groupBox3
             // 
+            this.groupBox3.BackColor = System.Drawing.SystemColors.AppWorkspace;
             this.groupBox3.Controls.Add(this.label16);
             this.groupBox3.Controls.Add(this.valueTotalAmount);
             this.groupBox3.Controls.Add(this.valueAmount);
@@ -344,16 +374,20 @@
             this.valueTotalAmount.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.valueTotalAmount.Location = new System.Drawing.Point(460, 79);
             this.valueTotalAmount.Name = "valueTotalAmount";
+            this.valueTotalAmount.ReadOnly = true;
             this.valueTotalAmount.Size = new System.Drawing.Size(64, 20);
             this.valueTotalAmount.TabIndex = 36;
+            this.valueTotalAmount.TabStop = false;
             // 
             // valueAmount
             // 
             this.valueAmount.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.valueAmount.Location = new System.Drawing.Point(460, 46);
             this.valueAmount.Name = "valueAmount";
+            this.valueAmount.ReadOnly = true;
             this.valueAmount.Size = new System.Drawing.Size(64, 20);
             this.valueAmount.TabIndex = 35;
+            this.valueAmount.TabStop = false;
             // 
             // label15
             // 
@@ -380,8 +414,10 @@
             this.textUnits.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.textUnits.Location = new System.Drawing.Point(221, 45);
             this.textUnits.Name = "textUnits";
+            this.textUnits.ReadOnly = true;
             this.textUnits.Size = new System.Drawing.Size(64, 20);
             this.textUnits.TabIndex = 31;
+            this.textUnits.TabStop = false;
             // 
             // label13
             // 
@@ -399,8 +435,10 @@
             this.penaltyText.Location = new System.Drawing.Point(460, 12);
             this.penaltyText.Name = "penaltyText";
             this.penaltyText.Size = new System.Drawing.Size(64, 20);
-            this.penaltyText.TabIndex = 29;
+            this.penaltyText.TabIndex = 1;
+            this.penaltyText.TabStop = false;
             this.penaltyText.Text = "0.00";
+            this.penaltyText.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.penaltyText_KeyPress);
             // 
             // label12
             // 
@@ -417,8 +455,10 @@
             this.textUsage.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.textUsage.Location = new System.Drawing.Point(221, 12);
             this.textUsage.Name = "textUsage";
+            this.textUsage.ReadOnly = true;
             this.textUsage.Size = new System.Drawing.Size(64, 20);
             this.textUsage.TabIndex = 28;
+            this.textUsage.TabStop = false;
             // 
             // label11
             // 
@@ -455,16 +495,20 @@
             this.currentUnit.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.currentUnit.Location = new System.Drawing.Point(485, 167);
             this.currentUnit.Name = "currentUnit";
+            this.currentUnit.ReadOnly = true;
             this.currentUnit.Size = new System.Drawing.Size(64, 20);
             this.currentUnit.TabIndex = 20;
+            this.currentUnit.TabStop = false;
             // 
             // lastUnit
             // 
             this.lastUnit.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lastUnit.Location = new System.Drawing.Point(485, 131);
             this.lastUnit.Name = "lastUnit";
+            this.lastUnit.ReadOnly = true;
             this.lastUnit.Size = new System.Drawing.Size(64, 20);
             this.lastUnit.TabIndex = 19;
+            this.lastUnit.TabStop = false;
             // 
             // currentRD
             // 
@@ -474,6 +518,7 @@
             this.currentRD.Name = "currentRD";
             this.currentRD.Size = new System.Drawing.Size(92, 21);
             this.currentRD.TabIndex = 18;
+            this.currentRD.TabStop = false;
             this.currentRD.SelectedIndexChanged += new System.EventHandler(this.currentRD_SelectedIndexChanged);
             // 
             // label5
@@ -494,6 +539,7 @@
             this.lastRD.Name = "lastRD";
             this.lastRD.Size = new System.Drawing.Size(92, 21);
             this.lastRD.TabIndex = 16;
+            this.lastRD.TabStop = false;
             this.lastRD.SelectedIndexChanged += new System.EventHandler(this.lastRD_SelectedIndexChanged);
             // 
             // label4
@@ -514,6 +560,7 @@
             this.subStatus.ReadOnly = true;
             this.subStatus.Size = new System.Drawing.Size(142, 20);
             this.subStatus.TabIndex = 14;
+            this.subStatus.TabStop = false;
             // 
             // label3
             // 
@@ -527,6 +574,7 @@
             // 
             // groupBox2
             // 
+            this.groupBox2.BackColor = System.Drawing.SystemColors.ActiveBorder;
             this.groupBox2.Controls.Add(this.clkBatchGenerateInvoice);
             this.groupBox2.Controls.Add(this.clkBatchCalculate);
             this.groupBox2.Controls.Add(this.subBatchMonth);
@@ -544,7 +592,8 @@
             this.clkBatchGenerateInvoice.Location = new System.Drawing.Point(348, 58);
             this.clkBatchGenerateInvoice.Name = "clkBatchGenerateInvoice";
             this.clkBatchGenerateInvoice.Size = new System.Drawing.Size(200, 40);
-            this.clkBatchGenerateInvoice.TabIndex = 30;
+            this.clkBatchGenerateInvoice.TabIndex = 6;
+            this.clkBatchGenerateInvoice.TabStop = false;
             this.clkBatchGenerateInvoice.Text = "Generate and Print Batch Invoice";
             this.clkBatchGenerateInvoice.UseVisualStyleBackColor = true;
             this.clkBatchGenerateInvoice.Click += new System.EventHandler(this.clkBatchGenerateInvoice_Click);
@@ -554,23 +603,26 @@
             this.clkBatchCalculate.Location = new System.Drawing.Point(124, 58);
             this.clkBatchCalculate.Name = "clkBatchCalculate";
             this.clkBatchCalculate.Size = new System.Drawing.Size(150, 40);
-            this.clkBatchCalculate.TabIndex = 29;
+            this.clkBatchCalculate.TabIndex = 5;
+            this.clkBatchCalculate.TabStop = false;
             this.clkBatchCalculate.Text = "Calculate Batch Invoice";
             this.clkBatchCalculate.UseVisualStyleBackColor = true;
             this.clkBatchCalculate.Click += new System.EventHandler(this.clkBatchCalculate_Click);
             // 
-            // clkCloseInput
+            // clkCloseBilling
             // 
-            this.clkCloseInput.Location = new System.Drawing.Point(246, 672);
-            this.clkCloseInput.Name = "clkCloseInput";
-            this.clkCloseInput.Size = new System.Drawing.Size(168, 32);
-            this.clkCloseInput.TabIndex = 18;
-            this.clkCloseInput.Text = "Close";
-            this.clkCloseInput.UseVisualStyleBackColor = true;
-            this.clkCloseInput.Click += new System.EventHandler(this.clkCloseInput_Click);
+            this.clkCloseBilling.Location = new System.Drawing.Point(246, 672);
+            this.clkCloseBilling.Name = "clkCloseBilling";
+            this.clkCloseBilling.Size = new System.Drawing.Size(168, 32);
+            this.clkCloseBilling.TabIndex = 9;
+            this.clkCloseBilling.TabStop = false;
+            this.clkCloseBilling.Text = "Close";
+            this.clkCloseBilling.UseVisualStyleBackColor = true;
+            this.clkCloseBilling.Click += new System.EventHandler(this.clkCloseBilling_Click);
             // 
             // groupBox5
             // 
+            this.groupBox5.BackColor = System.Drawing.SystemColors.ActiveBorder;
             this.groupBox5.Controls.Add(this.textInvoiceAmount);
             this.groupBox5.Controls.Add(this.label22);
             this.groupBox5.Controls.Add(this.textBillMonth);
@@ -596,6 +648,7 @@
             this.textInvoiceAmount.ReadOnly = true;
             this.textInvoiceAmount.Size = new System.Drawing.Size(106, 20);
             this.textInvoiceAmount.TabIndex = 44;
+            this.textInvoiceAmount.TabStop = false;
             // 
             // label22
             // 
@@ -628,6 +681,7 @@
             this.textBillMonth.Name = "textBillMonth";
             this.textBillMonth.Size = new System.Drawing.Size(103, 21);
             this.textBillMonth.TabIndex = 42;
+            this.textBillMonth.TabStop = false;
             this.textBillMonth.SelectedIndexChanged += new System.EventHandler(this.textBillMonth_SelectedIndexChanged);
             // 
             // label21
@@ -645,7 +699,8 @@
             this.updPayment.Location = new System.Drawing.Point(496, 19);
             this.updPayment.Name = "updPayment";
             this.updPayment.Size = new System.Drawing.Size(124, 53);
-            this.updPayment.TabIndex = 40;
+            this.updPayment.TabIndex = 8;
+            this.updPayment.TabStop = false;
             this.updPayment.Text = "Update Payment";
             this.updPayment.UseVisualStyleBackColor = true;
             this.updPayment.Click += new System.EventHandler(this.updPayment_Click);
@@ -666,7 +721,9 @@
             this.textPaidAmount.Location = new System.Drawing.Point(371, 52);
             this.textPaidAmount.Name = "textPaidAmount";
             this.textPaidAmount.Size = new System.Drawing.Size(103, 20);
-            this.textPaidAmount.TabIndex = 38;
+            this.textPaidAmount.TabIndex = 7;
+            this.textPaidAmount.TabStop = false;
+            this.textPaidAmount.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.textPaidAmount_KeyPress);
             // 
             // label19
             // 
@@ -686,6 +743,7 @@
             this.textFlatNo.Name = "textFlatNo";
             this.textFlatNo.Size = new System.Drawing.Size(106, 21);
             this.textFlatNo.TabIndex = 11;
+            this.textFlatNo.TabStop = false;
             this.textFlatNo.SelectedIndexChanged += new System.EventHandler(this.textFlatNo_SelectedIndexChanged);
             // 
             // BillingForm
@@ -694,7 +752,7 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(660, 711);
             this.Controls.Add(this.groupBox5);
-            this.Controls.Add(this.clkCloseInput);
+            this.Controls.Add(this.clkCloseBilling);
             this.Controls.Add(this.groupBox2);
             this.Controls.Add(this.groupBox1);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
@@ -707,6 +765,7 @@
             this.Text = "Billing Form";
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             this.groupBox4.ResumeLayout(false);
             this.groupBox4.PerformLayout();
             this.groupBox3.ResumeLayout(false);
@@ -729,7 +788,7 @@
         private System.Windows.Forms.ComboBox selFlatNo;
         private System.Windows.Forms.GroupBox groupBox1;
         private System.Windows.Forms.GroupBox groupBox2;
-        private System.Windows.Forms.Button clkCloseInput;
+        private System.Windows.Forms.Button clkCloseBilling;
         private System.Windows.Forms.TextBox subStatus;
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.Label label7;
@@ -776,5 +835,6 @@
         private System.Windows.Forms.Label label21;
         private System.Windows.Forms.TextBox textInvoiceAmount;
         private System.Windows.Forms.Label label22;
+        private System.Windows.Forms.PictureBox pictureBox1;
     }
 }

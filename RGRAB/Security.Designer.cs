@@ -41,7 +41,8 @@
             this.clkSubmit.MinimumSize = new System.Drawing.Size(75, 30);
             this.clkSubmit.Name = "clkSubmit";
             this.clkSubmit.Size = new System.Drawing.Size(75, 30);
-            this.clkSubmit.TabIndex = 0;
+            this.clkSubmit.TabIndex = 2;
+            this.clkSubmit.TabStop = false;
             this.clkSubmit.Text = "Submit";
             this.clkSubmit.UseVisualStyleBackColor = true;
             this.clkSubmit.Click += new System.EventHandler(this.clkSubmit_Click);
@@ -61,7 +62,8 @@
             this.textPassword.Location = new System.Drawing.Point(16, 39);
             this.textPassword.Name = "textPassword";
             this.textPassword.Size = new System.Drawing.Size(167, 20);
-            this.textPassword.TabIndex = 2;
+            this.textPassword.TabIndex = 1;
+            this.textPassword.TabStop = false;
             // 
             // Security
             // 

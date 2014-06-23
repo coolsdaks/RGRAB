@@ -28,11 +28,6 @@ namespace RGRAB
         }
         int itemCount = 0;
 
-        private void clkCloseInput_Click(object sender, EventArgs e)
-        {
-            this.Close();
-        }
-
         private void selFlatNo_SelectedIndexChanged(object sender, EventArgs e)
         {
             string valueFlatNo = selFlatNo.Text;
@@ -195,41 +190,43 @@ namespace RGRAB
             double totalAmount = calcAmount + valuePenalty;
             valueTotalAmount.Text = totalAmount.ToString("0.00");
 
-            SQLiteConnection sqlite_conn;
-            SQLiteCommand sqlite_cmd;
+            //This code has been commented. This inserted a row in Invoide Detail tablwe for indivisal bill calculation.
 
-            // create a new database connection:
-            sqlite_conn = new SQLiteConnection("Data Source=C:\\RGRAB\\Application\\GasDB.db;Version=3;New=False;Compress=True;");
+            //SQLiteConnection sqlite_conn;
+            //SQLiteCommand sqlite_cmd;
 
-            // open the connection:
-            sqlite_conn.Open();
+            //// create a new database connection:
+            //sqlite_conn = new SQLiteConnection("Data Source=C:\\RGRAB\\Application\\GasDB.db;Version=3;New=False;Compress=True;");
 
-            // create a new SQL command:
-            sqlite_cmd = sqlite_conn.CreateCommand();
-            try
-            {
-                // First lets build a SQL-Query again:
-                //sqlite_cmd.CommandText = "INSERT INTO Invoice_Detail (Flat_No, Reading_Year, Reading_Month, Current_Date, Current_Unit, Last_Date, Last_Unit,Subsidy_Unit, NonSubsidy_Unit, Span,Unit, Invoice_Date, Invoice_Amount) values ('" + valueFlatNo + "','" + currentYear + "', '" + currentMonth + "', '" + valueDate + "', '" + currUnit + "', '" + prevDate + "','" + preUnit + "', '" + subUnits.Text + "', '" + nonsubUnits.Text + "','" + span + "', '" + textUnits.Text + "','" + Today + "','" + valueTotalAmount.Text + "');";
-                //Execute the query
-                //sqlite_cmd.ExecuteNonQuery();
-            }
-            catch (Exception ex)
-            {
-                string errMessage = ex.Message;
-                if (errMessage == "columns Flat_No, Reading_Year, Reading_Month are not unique")
-                {
-                    MessageBox.Show("Bill has already been calculated for '"+ valueFlatNo +"'", "Information!", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                }
-                else
-                {
-                    MessageBox.Show(ex.Message.ToString(), "Error!", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                }
-            }
-            finally
-            {
-                // We are ready, now lets cleanup and close our connection:
-                sqlite_conn.Close();
-            }
+            //// open the connection:
+            //sqlite_conn.Open();
+
+            //// create a new SQL command:
+            //sqlite_cmd = sqlite_conn.CreateCommand();
+            //try
+            //{
+            //    // First lets build a SQL-Query again:
+            //    //sqlite_cmd.CommandText = "INSERT INTO Invoice_Detail (Flat_No, Reading_Year, Reading_Month, Current_Date, Current_Unit, Last_Date, Last_Unit,Subsidy_Unit, NonSubsidy_Unit, Span,Unit, Invoice_Date, Invoice_Amount) values ('" + valueFlatNo + "','" + currentYear + "', '" + currentMonth + "', '" + valueDate + "', '" + currUnit + "', '" + prevDate + "','" + preUnit + "', '" + subUnits.Text + "', '" + nonsubUnits.Text + "','" + span + "', '" + textUnits.Text + "','" + Today + "','" + valueTotalAmount.Text + "');";
+            //    //Execute the query
+            //    //sqlite_cmd.ExecuteNonQuery();
+            //}
+            //catch (Exception ex)
+            //{
+            //    string errMessage = ex.Message;
+            //    if (errMessage == "columns Flat_No, Reading_Year, Reading_Month are not unique")
+            //    {
+            //        MessageBox.Show("Bill has already been calculated for '"+ valueFlatNo +"'", "Information!", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            //    }
+            //    else
+            //    {
+            //        MessageBox.Show(ex.Message.ToString(), "Error!", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            //    }
+            //}
+            //finally
+            //{
+            //    // We are ready, now lets cleanup and close our connection:
+            //    sqlite_conn.Close();
+            //}
         }
 
         private void clkBatchCalculate_Click(object sender, EventArgs e)
@@ -856,7 +853,7 @@ namespace RGRAB
             sqlite_datareader = sqlite_cmd.ExecuteReader();
 
             // The SQLiteDataReader allows us to run through the result lines:
-            while (sqlite_datareader.Read()) // Read() returns true if there is still a result line to read
+            while (sqlite_datareader.Read()) 
             {
                 // Print out the content of the text field:
                 textInvoiceAmount.Text = sqlite_datareader.GetString(0);
@@ -915,6 +912,43 @@ namespace RGRAB
                 // We are ready, now lets cleanup and close our connection:
                 sqlite_conn.Close();
             }
+        }
+
+        private void penaltyText_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            char ch = e.KeyChar;
+
+            if (ch == 46 && penaltyText.Text.IndexOf('.') != -1)
+            {
+                e.Handled = true;
+                return;
+            }
+
+            if (!char.IsDigit(ch) && ch != 8 && ch != 46)
+            {
+                e.Handled = true;
+            }
+        }
+
+        private void textPaidAmount_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            char ch = e.KeyChar;
+
+            if (ch == 46 && textPaidAmount.Text.IndexOf('.') != -1)
+            {
+                e.Handled = true;
+                return;
+            }
+
+            if (!char.IsDigit(ch) && ch != 8 && ch != 46)
+            {
+                e.Handled = true;
+            }
+        }
+
+        private void clkCloseBilling_Click(object sender, EventArgs e)
+        {
+            this.Close();
         }
     }
 }

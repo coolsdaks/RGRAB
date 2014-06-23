@@ -70,12 +70,15 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>bin\Debug\ExcelLibrary.dll</HintPath>
     </Reference>
+    <Reference Include="Microsoft.ReportViewer.Common, Version=11.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91" />
+    <Reference Include="Microsoft.ReportViewer.WinForms, Version=11.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91, processorArchitecture=MSIL" />
     <Reference Include="SQLite.NET, Version=0.21.1869.3794, Culture=neutral, PublicKeyToken=c273bd375e695f9c">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>bin\Debug\SQLite.NET.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Web.Services" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -167,6 +170,7 @@
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DependentUpon>Resources.resx</DependentUpon>
+      <DesignTime>True</DesignTime>
     </Compile>
     <EmbeddedResource Include="ReportForm.resx">
       <DependentUpon>ReportForm.cs</DependentUpon>
@@ -207,6 +211,22 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="download.ico" />
+    <None Include="Resources\DBBackup.jpg" />
+    <None Include="Resources\DBcreate.jpg" />
+    <None Include="Resources\Options1.jpg" />
+    <None Include="Resources\Reporting1.jpg" />
+    <None Include="Resources\Database1.jpg" />
+    <None Include="Resources\Import.jpg" />
+    <None Include="Resources\Information.jpg" />
+    <None Include="Resources\Input1.jpg" />
+    <None Include="Resources\Billing1.jpg" />
+    <None Include="Resources\Update.jpg" />
+    <None Include="Resources\Database.jpg" />
+    <None Include="Resources\Options.jpg" />
+    <None Include="Resources\Reporting.jpg" />
+    <None Include="Resources\Billing.jpg" />
+    <None Include="Resources\Input.jpg" />
+    <None Include="Resources\RGRAB Logo.jpg" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
