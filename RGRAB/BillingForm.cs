@@ -248,7 +248,7 @@ namespace RGRAB
 
             if (valueMonth == "")
             {
-                MessageBox.Show("Please select the month for Batch Invoicing", "Warning!",MessageBoxButtons.OK,MessageBoxIcon.Warning);
+                MessageBox.Show("Please select the month for Batch Invoicing", "Error",MessageBoxButtons.OK,MessageBoxIcon.Error);
                 return;
             }
             SQLiteConnection sqlite_conn;
@@ -380,7 +380,7 @@ namespace RGRAB
 
             if (valueMonth == "")
             {
-                MessageBox.Show("Please select the month for Batch Invoicing", "Warning!",MessageBoxButtons.OK,MessageBoxIcon.Warning);
+                MessageBox.Show("Please select the month for Batch Invoicing", "Error",MessageBoxButtons.OK,MessageBoxIcon.Error);
                 return;
             }
             SQLiteConnection sqlite_conn;
@@ -668,7 +668,7 @@ namespace RGRAB
                 result = pp.ShowDialog();
                 if (result == DialogResult.OK)
                 {
-                pindividualdoc.Print();
+                    pindividualdoc.Print();
                 }
             }
         }
@@ -878,7 +878,7 @@ namespace RGRAB
 
             if (valueAmount == "")
             {
-                MessageBox.Show("Please enter the paid amount", "Error!", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show("Please enter the paid amount", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }
                 
@@ -905,7 +905,7 @@ namespace RGRAB
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message.ToString(), "Error!", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show(ex.Message.ToString(), "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
             finally
             {

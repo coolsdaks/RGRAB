@@ -140,7 +140,7 @@ namespace RGRAB
             string valMonth = defaultMonth.Text;
             if (valMonth == "")
             {
-                MessageBox.Show("Please select the month for generating defaulter report");
+                MessageBox.Show("Please select the month for generating defaulter report","Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }
             DefaulterReportForm defaultForm = new DefaulterReportForm(valMonth);

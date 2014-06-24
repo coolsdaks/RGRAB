@@ -37,17 +37,17 @@ namespace RGRAB
 
             if (valueFlatNo == "")
             {
-                MessageBox.Show("Please select Flat");
+                MessageBox.Show("Please select Flat","Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }
             else if (valueMonth == "")
             {
-                MessageBox.Show("Please select Month");
+                MessageBox.Show("Please select Month","Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }
             else if (valueUnit == "")
             {
-                MessageBox.Show("Please enter the reading unit to be updated");
+                MessageBox.Show("Please enter the reading unit to be updated","Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }
 
@@ -69,7 +69,7 @@ namespace RGRAB
                 sqlite_cmd.ExecuteNonQuery();
 
                 // We are ready, now lets cleanup and close our connection:
-                MessageBox.Show("Reading updated successfully for '" + valueFlatNo + "'");
+                MessageBox.Show("Reading updated successfully for '" + valueFlatNo + "'","Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
 
             }
             catch (Exception ex)
@@ -77,7 +77,7 @@ namespace RGRAB
                 string except1 = ex.Message.ToString();
                 if (except1 == ("columns Flat_No, Reading_Year, Reading_Month are not unique"))
                 {
-                    DialogResult dialogResult = MessageBox.Show("Reading exists for '" + valueFlatNo + "' for the month of '" + valueMonth + "'. Update Reading?","Warning!!", MessageBoxButtons.YesNo);
+                    DialogResult dialogResult = MessageBox.Show("Reading exists for '" + valueFlatNo + "' for the month of '" + valueMonth + "'. Update Reading?","Warning!!", MessageBoxButtons.YesNo, MessageBoxIcon.Exclamation);
                     if (dialogResult == DialogResult.Yes)
                     {
                         // First lets build a SQL-Query again:
@@ -86,7 +86,7 @@ namespace RGRAB
                         // And execute this again ;D
                         sqlite_cmd.ExecuteNonQuery();
 
-                        MessageBox.Show("Reading updated successfully for '" + valueFlatNo + "'");
+                        MessageBox.Show("Reading updated successfully for '" + valueFlatNo + "'","Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
                         selFlatNo_SelectedIndexChanged_1(this, null);
                     }
                     else if (dialogResult == DialogResult.No)
@@ -129,7 +129,6 @@ namespace RGRAB
             sqlite_cmd = sqlite_conn.CreateCommand();
 
             //Query to build up the maximun units consumed by the resident along with the details.
-            //sqlite_cmd.CommandText = "SELECT Name,Subsidy_Status,Total_Units FROM Resident_Detail where Flat_No = '" + valueFlatNo + "' ";
             sqlite_cmd.CommandText = "SELECT RD.Name,RD.Subsidy_Status,max(GR. Reading_Unit) FROM Resident_Detail as RD, Gas_Reading as GR where RD.Flat_No = '" + valueFlatNo + "' and GR.Flat_No = RD.Flat_No group by RD.Flat_No;";
 
             // Now the SQLiteCommand object can give us a DataReader-Object:
@@ -162,17 +161,17 @@ namespace RGRAB
 
             if (strFilePath == "")
             {
-                MessageBox.Show("Please select the Reading Data file to be imported!");
+                MessageBox.Show("Please select the Reading Data file to be imported!","Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }
             else if (currentYear == "")
             {
-                MessageBox.Show("Please select the year for reading import!");
+                MessageBox.Show("Please select the year for reading import!","Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }
             else if (valueMonth == "")
             {
-                MessageBox.Show("Please select the month for reading import!");
+                MessageBox.Show("Please select the month for reading import!","Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }
 
@@ -224,12 +223,12 @@ namespace RGRAB
                 string except1 = ex.Message.ToString();
                 if (except1 == ("columns Flat_No, Reading_Year, Reading_Month are not unique"))
                 {
-                    MessageBox.Show("Data already exists for the given month");
+                    MessageBox.Show("Data already exists for the given month", "Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                     return;
                 }
                 else
                 {
-                    MessageBox.Show(ex.Message.ToString());
+                    MessageBox.Show(ex.Message.ToString(),"Error", MessageBoxButtons.OK, MessageBoxIcon.Error );
                     return;
                 }
             }
@@ -273,8 +272,8 @@ namespace RGRAB
             {
                 timer1.Enabled = false;
                 // Back to normal 
-                Cursor.Current = Cursors.Default; 
-                MessageBox.Show("Reading Data imported successfully for the month chosen!");
+                Cursor.Current = Cursors.Default;
+                MessageBox.Show("Reading Data imported successfully for the month chosen!","Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
 
             }
         }

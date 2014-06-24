@@ -73,14 +73,14 @@ namespace RGRAB
                 // And execute this again ;D
                 sqlite_cmd.ExecuteNonQuery();
 
-                MessageBox.Show("Subsidy Values updated successfully for '" + mnthValue + "','" + currentYear + "'","Success");
+                MessageBox.Show("Subsidy Values updated successfully for '" + mnthValue + "','" + currentYear + "'", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
             catch (Exception ex)
             {
                 string except1 = ex.Message.ToString();
                 if (except1 == ("columns Year, Month are not unique"))
                 {
-                    DialogResult dialogResult = MessageBox.Show("Data exists for the month of '" + mnthValue + "','" + currentYear + "'. Update Reading?", "Warning!!", MessageBoxButtons.YesNo);
+                    DialogResult dialogResult = MessageBox.Show("Data exists for the month of '" + mnthValue + "','" + currentYear + "'. Update Reading?", "Warning!", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
                     if (dialogResult == DialogResult.Yes)
                     {
                         // First lets build a SQL-Query again:
@@ -89,7 +89,7 @@ namespace RGRAB
                         // And execute this again ;D
                         sqlite_cmd.ExecuteNonQuery();
 
-                        MessageBox.Show("Subsidy Values updated successfully for '" + mnthValue + "','" + currentYear + "'","Success");
+                        MessageBox.Show("Subsidy Values updated successfully for '" + mnthValue + "','" + currentYear + "'", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
                         //selFlatNo_SelectedIndexChanged_1(this, null);
                     }
                     else if (dialogResult == DialogResult.No)
@@ -158,7 +158,7 @@ namespace RGRAB
 
                 if (valueName == "")
                 {
-                    MessageBox.Show("Please enter the Future Resident Name!!", "Warning");
+                    MessageBox.Show("Please enter the Future Resident Name!", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     return;
                 }
                 // create a new database connection:
@@ -177,7 +177,7 @@ namespace RGRAB
                     // And execute this again ;D
                     sqlite_cmd.ExecuteNonQuery();
 
-                    MessageBox.Show("Details updated successfully");
+                    MessageBox.Show("Details updated successfully", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 }
                 catch (Exception ex)
                 {
