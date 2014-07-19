@@ -65,10 +65,8 @@ namespace RGRAB
             sqlite_cmd = sqlite_conn.CreateCommand();
             try
             {
-                //sqlite_cmd.CommandText = "UPDATE SubValue SET Subsidized = '" + subValue + "',NonSubsidized =  '" + unsubValue + "', Year = '" + currentYear + "' where Month = '" + mnthValue + "' and Year = '" + currentYear + "'";
+                // First lets build a SQL-Query again:
                 sqlite_cmd.CommandText = "INSERT Into SubValue (Year, Month, Subsidized, NonSubsidized) values('" + currentYear + "', '" + mnthValue + "', '" + subValue + "','" + unsubValue + "')";
-
-                //sqlite_cmd.CommandText = "SELECT Subsidized,NonSubsidized FROM SubValue where Month ='January'";
 
                 // And execute this again ;D
                 sqlite_cmd.ExecuteNonQuery();
@@ -158,7 +156,7 @@ namespace RGRAB
 
                 if (valueName == "")
                 {
-                    MessageBox.Show("Please enter the Future Resident Name!", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    MessageBox.Show("Please enter the Future Resident Name. Copy the Current Resident (name) in case name change is not needed!", "Warning", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
                     return;
                 }
                 // create a new database connection:

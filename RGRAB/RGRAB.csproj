@@ -211,6 +211,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="download.ico" />
+    <None Include="Resources\mvslogo.jpg" />
     <None Include="Resources\DBBackup.jpg" />
     <None Include="Resources\DBcreate.jpg" />
     <None Include="Resources\Options1.jpg" />

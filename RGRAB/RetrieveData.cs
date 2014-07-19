@@ -161,13 +161,19 @@ namespace RGRAB
 
             return (rdMonth);
         }
-        public static double calculateAmount(double Sub, double unSub, double addUnit, double nonUnit)
+        public static double calculateAmount(double Sub, double unSub, double addUnit, double nonUnit, string valStatus)
         {
             double valueAmount = 0.0;
 
-            valueAmount = ((Sub * nonUnit * 2.6) + (unSub * addUnit * 2.6));
-
-            return(valueAmount);
+            if (valStatus == "Subsidized")
+            {
+                valueAmount = ((Sub * nonUnit * 2.6) + (unSub * addUnit * 2.6));
+            }
+            else if (valStatus == "NonSubsidized")
+            {
+                valueAmount = ((unSub * nonUnit * 2.6) + (unSub * addUnit * 2.6)); 
+            }
+                return(valueAmount);
         }
 
         public static string Retrieve_LastRD(string tempFlatNo, string tempMonth, string tempYear)

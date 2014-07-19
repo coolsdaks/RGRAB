@@ -50,20 +50,19 @@ namespace RGRAB
             DialogResult result = pd.ShowDialog();
             if (result == DialogResult.OK)
             {
-                PrintPreviewDialog pp = new PrintPreviewDialog();
-                pp.Document = pdoc;
-                result = pp.ShowDialog();
-                if (result == DialogResult.OK)
-                {
+                //PrintPreviewDialog pp = new PrintPreviewDialog();
+                //pp.Document = pdoc;
+                //result = pp.ShowDialog();
+                //if (result == DialogResult.OK)
+                //{
                 pdoc.Print();
-                }
+                //}
             }
         }
 
         void pdoc_PrintPage(object sender, PrintPageEventArgs e)
         {
 
-            //string valueMonth = subBatchMonth.Text;
             string currentYear = DateTime.Now.Year.ToString();
             string underLine = "-------------------------------------------------------------------";
 
@@ -79,10 +78,15 @@ namespace RGRAB
             //float fontHeight = font.GetHeight();
 
             int startX = 100;
+            int startK = 50;
+            int startL = 40;
             int startY = 25;
             int OffsetY = 20;
             DateTime today = DateTime.Today;
             string Today = today.ToString("MM/dd/yyyy"); // As String
+
+            Image Logo = Properties.Resources.mvslogo;
+            graphics.DrawImage(Logo, startK, startL, 40, 40);
 
             graphics.DrawString("Mont Vert Seville CHS Gas Consumption Report", new Font("Courier New", 16, FontStyle.Bold), brush, startX, startY + OffsetY);
 
@@ -121,7 +125,7 @@ namespace RGRAB
                     itemCounter++;
                     itemCount++;
 
-                    if ((itemCounter == 50) && (itemCount < consumptionList.Count))
+                    if ((itemCounter == 20) && (itemCount < consumptionList.Count))
                     {
                         e.HasMorePages = true;
                         return;

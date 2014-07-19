@@ -163,6 +163,16 @@ namespace RGRAB.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap mvslogo {
+            get {
+                object obj = ResourceManager.GetObject("mvslogo", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap Options {
             get {
                 object obj = ResourceManager.GetObject("Options", resourceCulture);
@@ -203,9 +213,9 @@ namespace RGRAB.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap RGRAB_Logo {
+        internal static System.Drawing.Bitmap RGRABLogo {
             get {
-                object obj = ResourceManager.GetObject("RGRAB Logo", resourceCulture);
+                object obj = ResourceManager.GetObject("RGRABLogo", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }

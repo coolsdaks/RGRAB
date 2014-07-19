@@ -31,7 +31,7 @@ namespace RGRAB
             sqlite_cmd = sqlite_conn.CreateCommand();
 
             // First lets build a SQL-Query again:
-            sqlite_cmd.CommandText = "SELECT * FROM Resident_Detail";
+            sqlite_cmd.CommandText = "SELECT Flat_No FROM Resident_Detail order by Flat_No asc";
 
             // Now the SQLiteCommand object can give us a DataReader-Object:
             sqlite_datareader = sqlite_cmd.ExecuteReader();
@@ -93,7 +93,6 @@ namespace RGRAB
                     invRet.Unit = sqlite_datareader.GetString(10);
                     invRet.Amount = sqlite_datareader.GetString(11);
                     invoiceRetList.Add(invRet);
-                    //InvoiceRet.Add(new Invoice_Retrieve(FlatNo, Name, SubStatus, CurrentDate, CurrentUnit, LastDate, LastUnit, SubsidyUnit, NonSubSidyUnit, Span, Unit, Amount));
 
                 }
             }
@@ -154,8 +153,12 @@ namespace RGRAB
                     valueMonth = sqlite_datareader.GetString(3);
                     string valYear = sqlite_datareader.GetString(4);
 
-                    int valMonth = Convert.ToDateTime("01-" + valueMonth + "-2011").Month; 
-
+                    int valMonth = Convert.ToDateTime("01-" + valueMonth + "-2011").Month;
+                    
+                    if ((valMonth == 3) && (valYear == "2014"))
+                    {
+                        valMonth = 4;
+                    }
 
                     if ((valMonth >= 1) && (valMonth <= 3))
                     {

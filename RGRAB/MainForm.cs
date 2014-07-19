@@ -72,8 +72,12 @@ namespace RGRAB
 
                     //Code to decide the subsidy status of the resident
                     int valMonth = Convert.ToDateTime("01-" + valueMonth + "-2011").Month; 
-                    string currentMonth = RetrieveData.getMonth(valMonth);
                     string valYear = DateTime.Now.Year.ToString();
+                    if ((valMonth == 3) && (valYear =="2014"))
+                    {
+                        valMonth = 4;
+                    }
+                    string currentMonth = RetrieveData.getMonth(valMonth);
 
 
                     if ((valMonth >= 1) && (valMonth <= 3))

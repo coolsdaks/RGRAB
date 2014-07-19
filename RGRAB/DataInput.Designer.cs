@@ -60,6 +60,8 @@
             this.textConsumption = new System.Windows.Forms.TextBox();
             this.label10 = new System.Windows.Forms.Label();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
+            this.dateTimePicker2 = new System.Windows.Forms.DateTimePicker();
+            this.label12 = new System.Windows.Forms.Label();
             this.groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.SuspendLayout();
@@ -197,6 +199,8 @@
             // groupBox1
             // 
             this.groupBox1.BackColor = System.Drawing.SystemColors.ActiveBorder;
+            this.groupBox1.Controls.Add(this.label12);
+            this.groupBox1.Controls.Add(this.dateTimePicker2);
             this.groupBox1.Controls.Add(this.yearText);
             this.groupBox1.Controls.Add(this.label11);
             this.groupBox1.Controls.Add(this.selFile);
@@ -227,7 +231,7 @@
             "2018",
             "2019",
             "2020"});
-            this.yearText.Location = new System.Drawing.Point(162, 61);
+            this.yearText.Location = new System.Drawing.Point(162, 52);
             this.yearText.Name = "yearText";
             this.yearText.Size = new System.Drawing.Size(124, 21);
             this.yearText.TabIndex = 26;
@@ -237,7 +241,7 @@
             // 
             this.label11.AutoSize = true;
             this.label11.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold);
-            this.label11.Location = new System.Drawing.Point(57, 62);
+            this.label11.Location = new System.Drawing.Point(57, 53);
             this.label11.Name = "label11";
             this.label11.Size = new System.Drawing.Size(97, 16);
             this.label11.TabIndex = 25;
@@ -315,7 +319,7 @@
             "October",
             "November",
             "December"});
-            this.selMonth1.Location = new System.Drawing.Point(162, 98);
+            this.selMonth1.Location = new System.Drawing.Point(162, 80);
             this.selMonth1.Name = "selMonth1";
             this.selMonth1.Size = new System.Drawing.Size(124, 21);
             this.selMonth1.TabIndex = 15;
@@ -325,7 +329,7 @@
             // 
             this.label7.AutoSize = true;
             this.label7.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold);
-            this.label7.Location = new System.Drawing.Point(49, 99);
+            this.label7.Location = new System.Drawing.Point(49, 81);
             this.label7.Name = "label7";
             this.label7.Size = new System.Drawing.Size(105, 16);
             this.label7.TabIndex = 14;
@@ -408,6 +412,26 @@
             this.pictureBox1.TabIndex = 24;
             this.pictureBox1.TabStop = false;
             // 
+            // dateTimePicker2
+            // 
+            this.dateTimePicker2.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.dateTimePicker2.Format = System.Windows.Forms.DateTimePickerFormat.Short;
+            this.dateTimePicker2.Location = new System.Drawing.Point(162, 108);
+            this.dateTimePicker2.Name = "dateTimePicker2";
+            this.dateTimePicker2.Size = new System.Drawing.Size(124, 20);
+            this.dateTimePicker2.TabIndex = 27;
+            this.dateTimePicker2.TabStop = false;
+            // 
+            // label12
+            // 
+            this.label12.AutoSize = true;
+            this.label12.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold);
+            this.label12.Location = new System.Drawing.Point(42, 112);
+            this.label12.Name = "label12";
+            this.label12.Size = new System.Drawing.Size(112, 16);
+            this.label12.TabIndex = 28;
+            this.label12.Text = "Reading Date :";
+            // 
             // DataInput
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -481,5 +505,7 @@
         private System.Windows.Forms.ComboBox yearText;
         private System.Windows.Forms.Label label11;
         private System.Windows.Forms.PictureBox pictureBox1;
+        private System.Windows.Forms.Label label12;
+        private System.Windows.Forms.DateTimePicker dateTimePicker2;
     }
 }

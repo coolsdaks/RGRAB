@@ -154,10 +154,11 @@ namespace RGRAB
 
             string strFilePath = textFilePath.Text;
             string valueMonth = selMonth1.Text;
+            string valueDate = dateTimePicker2.Text;
             string currentYear = yearText.Text;
 
-            DateTime now = DateTime.Today;
-            string valueDate = now.GetDateTimeFormats('d')[0];
+            //DateTime now = DateTime.Today;
+            //string valueDate = now.GetDateTimeFormats('d')[0];
 
             if (strFilePath == "")
             {
@@ -273,7 +274,7 @@ namespace RGRAB
                 timer1.Enabled = false;
                 // Back to normal 
                 Cursor.Current = Cursors.Default;
-                MessageBox.Show("Reading Data imported successfully for the month chosen!","Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show("Reading Data imported successfully for the month chosen!","Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
 
             }
         }

@@ -76,7 +76,7 @@
             // 
             // RGRABLogo
             // 
-            this.RGRABLogo.Image = global::RGRAB.Properties.Resources.RGRAB_Logo;
+            this.RGRABLogo.Image = global::RGRAB.Properties.Resources.RGRABLogo;
             this.RGRABLogo.Location = new System.Drawing.Point(71, 12);
             this.RGRABLogo.Name = "RGRABLogo";
             this.RGRABLogo.Size = new System.Drawing.Size(123, 122);
